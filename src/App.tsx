@@ -14,6 +14,5 @@ function App() {
         <Route path="/add-link" element={<AddLinkPage />} />
       </Routes>
     </Router>
-  );
 }
 export default App;
