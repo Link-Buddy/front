@@ -59,7 +59,7 @@ const BuddyComponent = () => {
     ) : null;
 
     return (
-        <div style={{ height: '100%', paddingBottom: 50}}>
+        <div style={{ height: '100%', padding: '0px 25px 50px 25px '}}>
             <Flex justify="flex-start">
                 <Typography.Title level={3}>버디</Typography.Title>
             </Flex>

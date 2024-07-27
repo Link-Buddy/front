@@ -14,7 +14,7 @@ const TestComponent = () => {
             </div>
             <Divider />
             <div>
-                <LinkComponent />
+                {/* <LinkComponent linkList={}/> */}
             </div>
         </div>
     )

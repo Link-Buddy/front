@@ -11,6 +11,7 @@ import TestComponent from 'pages/test';
 import BuddyComponent from 'pages/buddy';
 import LinkComponent from 'pages/link';
 import LinkDetailComponent from 'pages/link/detail';
+import SearchComponent from 'pages/search';
 import MyLinkPage from 'page/MyLinkPage';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
               <Route path="/main" element={<MainComponent />} />
               <Route path="/login" element={<LoginComponent />} />
               <Route path="/test" element={<TestComponent />} />
+              <Route path="/search" element={<SearchComponent />} />
               <Route path="/buddy" element={<BuddyComponent />} />
               <Route path="/link" element={<LinkComponent />} />
               <Route path="/link/:id" element={<LinkDetailComponent />} />

@@ -11,7 +11,7 @@ const LayoutComponent = ({ children }: any) => {
       <Content
         style={{
           backgroundColor: 'white',
-          padding: '10px 25px 50px 25px',
+          padding: '10px 0px 50px 0px',
           maxHeight: 'calc(100vh - 144px)',
           overflowY: 'auto',
         }}
