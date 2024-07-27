@@ -11,6 +11,7 @@ import TestComponent from 'pages/test';
 import BuddyComponent from 'pages/buddy';
 import LinkComponent from 'pages/link';
 import LinkDetailComponent from 'pages/link/detail';
+import SearchComponent from 'pages/search';
 
 function App() {
   const antdTheme = {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/add-link" element={<AddLinkPage />} />
             <Route path="/main" element={<MainComponent />} />
             <Route path="/login" element={<LoginComponent />} />
+            <Route path="/search" element={<SearchComponent />} />
             <Route path="/test" element={<TestComponent />} />
             <Route path="/buddy" element={<BuddyComponent />} />
             <Route path="/link" element={<LinkComponent />} />

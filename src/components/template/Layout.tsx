@@ -12,7 +12,7 @@ const LayoutComponent = ({children} : any) => {
             <Header style={{ backgroundColor: 'white'}}>
                 {/* <Typography.Title>Header</Typography.Title> */}
             </Header>
-            <Content style={{ backgroundColor: 'white', padding: '10px 25px 50px 25px', maxHeight: "calc(100vh - 144px)", overflowY: 'auto'}}>
+            <Content style={{ backgroundColor: 'white', padding: '10px 0px 50px 0px', maxHeight: "calc(100vh - 144px)", overflowY: 'auto'}}>
                 {children}
             </Content>
             <NavBar />
