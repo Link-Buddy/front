@@ -1,48 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Input, Button, Radio, Select, Form } from 'antd';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const AddLinkPage: React.FC = () => {
+const { TextArea } = Input;
+const { Option } = Select;
+
+const AddLinkForm = () => {
+  const [radioValue, setRadioValue] = useState('private');
+
+  const handleRadioChange = (e: any) => {
+    setRadioValue(e.target.value);
+  };
+
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate('/home');
+  };
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">링크 추가 페이지</h1>
-      <form>
-        {/* 링크 추가 폼 */}
-        <div className="mb-4">
-          <label
-            htmlFor="linkName"
-            className="block text-sm font-medium text-gray-700"
+    <div>
+      <h2 className="text-center mb-4 text-lg">ADD LINK</h2>
+      <Form layout="vertical">
+        <Form.Item label="링크주소">
+          <Input placeholder="링크주소" className="p-2" />
+        </Form.Item>
+        <Form.Item label="링크이름">
+          <Input placeholder="링크이름" className="p-2" />
+        </Form.Item>
+        <Form.Item label="설명">
+          <TextArea rows={4} placeholder="설명" />
+        </Form.Item>
+        <Form.Item>
+          <Radio.Group
+            defaultValue="private"
+            className="flex justify-between"
+            onChange={handleRadioChange}
           >
-            링크 이름
-          </label>
-          <input
-            type="text"
-            id="linkName"
-            name="linkName"
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="linkUrl"
-            className="block text-sm font-medium text-gray-700"
+            <Radio.Button value="private" className="flex-1 text-center">
+              PRIVATE
+            </Radio.Button>
+            <Radio.Button value="buddy" className="flex-1 text-center">
+              BUDDY
+            </Radio.Button>
+          </Radio.Group>
+        </Form.Item>
+        {radioValue === 'buddy' && (
+          <Form.Item label="버디그룹">
+            <Select placeholder="버디그룹">
+              <Option value="group1">가족공유</Option>
+              <Option value="group2">우아한캠프</Option>
+            </Select>
+          </Form.Item>
+        )}
+        <Form.Item label="폴더">
+          <Select placeholder="폴더">
+            <Option value="folder1">미분류</Option>
+            <Option value="folder2">개발</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item className="mt-20">
+          <Button
+            type="primary"
+            className="w-full h-12 flex items-center justify-center"
+            onClick={handleSubmit}
           >
-            링크 URL
-          </label>
-          <input
-            type="url"
-            id="linkUrl"
-            name="linkUrl"
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-          />
-        </div>
-        <button
-          type="submit"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          추가
-        </button>
-      </form>
+            추가
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
 
-export default AddLinkPage;
+export default AddLinkForm;
