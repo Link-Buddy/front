@@ -11,37 +11,37 @@ import TestComponent from 'pages/test';
 import BuddyComponent from 'pages/buddy';
 import LinkComponent from 'pages/link';
 import LinkDetailComponent from 'pages/link/detail';
+import MyLinkPage from 'page/MyLinkPage';
 
 function App() {
   const antdTheme = {
     token: {
-      fontFamily: 'Pretendard'
-    }
-  }
+      fontFamily: 'Pretendard',
+    },
+  };
 
   return (
-    //ROUTER.index파일과 동일
-    // <Router>
-    // </Router>
     <div className="App">
-      <Flex justify='center'>
-      <LayoutComponent>
-      <ConfigProvider theme={antdTheme}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/add-link" element={<AddLinkPage />} />
-            <Route path="/main" element={<MainComponent />} />
-            <Route path="/login" element={<LoginComponent />} />
-            <Route path="/test" element={<TestComponent />} />
-            <Route path="/buddy" element={<BuddyComponent />} />
-            <Route path="/link" element={<LinkComponent />} />
-            <Route path="/link/:id" element={<LinkDetailComponent />} />
-        </Routes>
-      </ConfigProvider>
-      </LayoutComponent>
+      <Flex justify="center">
+        <LayoutComponent>
+          <ConfigProvider theme={antdTheme}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/my" element={<MyLinkPage />} />
+
+              <Route path="/add-link" element={<AddLinkPage />} />
+              <Route path="/main" element={<MainComponent />} />
+              <Route path="/login" element={<LoginComponent />} />
+              <Route path="/test" element={<TestComponent />} />
+              <Route path="/buddy" element={<BuddyComponent />} />
+              <Route path="/link" element={<LinkComponent />} />
+              <Route path="/link/:id" element={<LinkDetailComponent />} />
+            </Routes>
+          </ConfigProvider>
+        </LayoutComponent>
       </Flex>
     </div>
-  )
+  );
 }
 export default App;
