@@ -14,6 +14,10 @@ import LinkDetailComponent from 'pages/link/detail';
 import SearchComponent from 'pages/search';
 import MyLinkPage from 'page/MyLinkPage';
 
+import UserEditPage from 'page/UserEditPage';
+import UserPage from 'page/UserPage';
+import BuddyPage from 'page/BuddyPage';
+
 function App() {
   const antdTheme = {
     token: {
@@ -30,13 +34,16 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/home" element={<HomePage />} />
               <Route path="/my" element={<MyLinkPage />} />
+              <Route path="/buddy" element={<BuddyPage />} />
+              <Route path="/user" element={<UserPage />} />
+              <Route path="/user/:userId" element={<UserEditPage />} />
 
               <Route path="/add-link" element={<AddLinkPage />} />
               <Route path="/main" element={<MainComponent />} />
               <Route path="/login" element={<LoginComponent />} />
               <Route path="/test" element={<TestComponent />} />
               <Route path="/search" element={<SearchComponent />} />
-              <Route path="/buddy" element={<BuddyComponent />} />
+              <Route path="/buddylist" element={<BuddyComponent />} />
               <Route path="/link" element={<LinkComponent />} />
               <Route path="/link/:id" element={<LinkDetailComponent />} />
             </Routes>
