@@ -3,7 +3,7 @@ import { LinkComponent } from "components/Link";
 import { SearchComponent } from "components/Search";
 
 
-const TestComponent = () => {
+const TestPage = () => {
     return (
         <div>
             <div style={{ paddingBottom: 20}}>
@@ -19,4 +19,4 @@ const TestComponent = () => {
         </div>
     )
 }
-export default TestComponent;
+export default TestPage;

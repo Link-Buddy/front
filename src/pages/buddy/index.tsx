@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 const count = 3;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
 
-const BuddyComponent = () => {
+const BuddyPage = () => {
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [list, setList] = useState<any[]>([]);
+
     useEffect(() => {
       fetch(fakeDataUrl)
         .then((res) => res.json())
@@ -19,6 +20,7 @@ const BuddyComponent = () => {
           setList(res.results);
         });
     }, []);
+    
     const onLoadMore = () => {
       setLoading(true);
     //   setList(
@@ -95,4 +97,4 @@ const BuddyComponent = () => {
         </div>
     )
 }
-export default BuddyComponent;
+export default BuddyPage;

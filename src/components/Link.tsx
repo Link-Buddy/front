@@ -1,9 +1,11 @@
 /* eslint-disable array-callback-return */
 import { CloseOutlined, CopyOutlined, EditOutlined, EllipsisOutlined, HeartOutlined, SettingOutlined, ToolOutlined } from "@ant-design/icons"
-import { Button, Card, Col, Divider, Flex, Input, Modal, Popover, Row, Typography, message } from "antd"
+import { Button, Card, Checkbox, Col, Divider, Flex, Input, Modal, Popover, Row, Typography, message } from "antd"
+import { useEffect } from "react";
 import { IoHeart } from "react-icons/io5";
 
 interface LinkProps {
+    content: any;
     linkList: {
         key: number;
         url: string;
@@ -11,30 +13,13 @@ interface LinkProps {
         description: string;
         favo: boolean;
     }[];
+    showEdit: boolean;
+    selectedLink: number[];
+    setSelectedLink: (e: number[]) => void;
+    setSelectLinkCount: (e: number) => void;
 }
 
-const Content = () => {
-    return (
-        <Flex vertical style={{ padding: '2px 10px'}}>
-            <a >
-                <HeartOutlined style={{ paddingRight: 5}}/>
-                즐겨찾기
-            </a>
-            <Divider style={{ margin: '10px 0px'}}/>
-            <a >
-                <ToolOutlined style={{ paddingRight: 5}}/>
-                수정
-            </a>
-            <Divider style={{ margin: '10px 0px'}}/>
-            <a >
-                <CloseOutlined style={{ paddingRight: 5}}/>
-                삭제
-            </a>
-        </Flex>
-    )
-}
-
-export const LinkComponent: React.FC<LinkProps> = ({ linkList }) => {
+export const LinkComponent: React.FC<LinkProps> = ({ content, linkList, showEdit, selectedLink, setSelectedLink, setSelectLinkCount }) => {
     const [messageApi, contextHolder] = message.useMessage();
 
     const onClickLinkCard = (value: string) => {
@@ -49,6 +34,22 @@ export const LinkComponent: React.FC<LinkProps> = ({ linkList }) => {
             })
         });
     }
+
+    const onChangeCheckbox = (key: number) => {
+        console.log('key ??', key);
+        console.log('selectedLink ??', selectedLink);
+        const isExistKey = selectedLink.includes(key);
+        if (isExistKey) {
+            const excludeKey = selectedLink.filter((link) => link !== key)
+            setSelectedLink(excludeKey);
+        } else {
+            setSelectedLink([...selectedLink, key]);
+        }
+    }
+
+    useEffect(() => {
+        setSelectLinkCount(selectedLink.length)
+    }, [selectedLink])
 
     return (
         <>
@@ -81,12 +82,15 @@ export const LinkComponent: React.FC<LinkProps> = ({ linkList }) => {
                             }
                             actions={[
                                 <CopyOutlined key="edit" onClick={() => onClickCopyLink(link.url)}/>,
-                                <Popover content={<Content />} trigger={'click'}>
+                                <Popover content={content} trigger={'click'}>
                                     <EllipsisOutlined key="ellipsis" />
                                 </Popover>
                               ]}
                             onClick={() => {onClickLinkCard(link.name)}}
                         >
+                            {showEdit && (
+                                <Checkbox style={{ position: 'absolute', top: 5, left: 10 }} onChange={() => onChangeCheckbox(link.key)}/>
+                            )}
                             {link.favo && (
                                 <IoHeart style={{ fontSize: 20, color: '#ff4d4d', position: 'absolute', right: 6, top: 95 }}/>
                             )}
