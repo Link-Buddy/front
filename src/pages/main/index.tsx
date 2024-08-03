@@ -1,4 +1,4 @@
-const MainComponent = () => {
+const MainPage = () => {
     return (
         <div>
             <div style={{ paddingBottom: 20}}>
@@ -7,4 +7,4 @@ const MainComponent = () => {
         </div>
     )
 }
-export default MainComponent;
+export default MainPage;

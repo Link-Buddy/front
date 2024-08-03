@@ -1,7 +1,7 @@
 import { Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const LinkComponent = () => {
+const LinkPage = () => {
     const navigate = useNavigate();
 
     const onClickDetail = () => {
@@ -16,4 +16,4 @@ const LinkComponent = () => {
         </>
     )
 }
-export default LinkComponent;
+export default LinkPage;
