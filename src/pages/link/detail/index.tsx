@@ -4,8 +4,9 @@ import { LinkComponent } from "components/Link";
 import { SearchComponent } from "components/Search";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import ModalComponent from "../components/Modal";
-import AlertModalComponent from "../components/AlertModal";
+import { useModal } from "hooks/useModal";
+import { MoveLinkModal } from "components/modals/MoveLinkModal";
+import { AlertModal } from "components/modals/AlertModal";
 
 
 const LinkDetailPage = () => {
@@ -23,8 +24,8 @@ const LinkDetailPage = () => {
                 </a>
                 <Divider style={{ margin: '10px 0px'}}/>
                 <a onClick={() => {
-                    setAlertType('delete')
-                    setIsAlert(true)
+                    setAlertType('delete');
+                    openModal('alert');
                 }} >
                     <CloseOutlined style={{ paddingRight: 5}}/>
                     삭제
@@ -39,13 +40,9 @@ const LinkDetailPage = () => {
     const [selectedLink, setSelectedLink] = useState<number[]>([]);
     const [selectLinkCount, setSelectLinkCount] = useState<number>(0);
 
-    /** 모달 노출 */
-    const [isOpen, setIsOpen] = useState(false);
-    /** alert 모달 노출 */
-    const [isAlert, setIsAlert] = useState(false);
+    const { isOpen, openModal, closeModal } = useModal();
+    /** alert 모달 타입 */
     const [alertType, setAlertType] = useState<string>('');
-    const [activeKey, setActiveKey] = useState<number>();
-    const [changeName, setChangeName] = useState();
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -67,18 +64,6 @@ const LinkDetailPage = () => {
             label: "JOB"
         },
     ]
-
-    // const onClickEdit = (key: number) => {
-    //     console.log(key)
-    //     setActiveKey(key);
-    //     setIsModalOpen(true);
-
-    // };
-
-    const onChangeName = (e: any) => {
-        console.log(e.target.value);
-        setChangeName(e.target.value);
-    }
 
     const linkList = [
         {
@@ -111,7 +96,7 @@ const LinkDetailPage = () => {
     }
     
     const handleOk = () => {
-        setIsAlert(false);
+        closeModal('alert')
         messageApi.open({
             type: 'success',
             content: '삭제되었습니다.'
@@ -162,7 +147,7 @@ const LinkDetailPage = () => {
                                 if (selectLinkCount === 0) {
                                     return false
                                 } else {
-                                    setIsOpen(true)
+                                    openModal('moveLink');
                                 }
                             }} >
                                 <FolderOpenOutlined style={{ paddingRight: 5 }} />
@@ -173,8 +158,8 @@ const LinkDetailPage = () => {
                                 if (selectLinkCount === 0) {
                                     return false
                                 } else {
-                                    setAlertType('delete')
-                                    setIsAlert(true)
+                                    setAlertType('delete');
+                                    openModal('alert');
                                 }
                             }} >
                                 <CloseOutlined style={{ paddingRight: 5 }} />
@@ -184,8 +169,25 @@ const LinkDetailPage = () => {
                     </Col>
                 </Row>
             )}
-            <AlertModalComponent type={alertType} handleOk={handleOk} isOpen={isAlert} setIsOpen={setIsAlert} selectedLink={selectedLink} />
-            <ModalComponent isOpen={isOpen} setIsOpen={setIsOpen} options={selectSearchOptions} selectedLink={selectedLink}/>
+            {/* 링크 이동 모달 */}
+            {isOpen('moveLink') && (
+                <MoveLinkModal 
+                    closeModal={closeModal} 
+                    isOpen={isOpen('moveLink')}
+                    options={selectSearchOptions} 
+                    selectedLink={selectedLink} 
+                />
+            )}
+            {/* 알림 모달 */}
+            {isOpen('alert') && (
+                <AlertModal 
+                    closeModal={closeModal}
+                    isOpen={isOpen('alert')}    
+                    type={alertType} 
+                    selectedLink={selectedLink}
+                    handleOk={handleOk} 
+                />
+            )}
         </>
     )
 }

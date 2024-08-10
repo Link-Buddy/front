@@ -1,35 +1,32 @@
-import { Flex, Modal, Radio, Select, Space, Typography } from "antd";
+import { Divider, Flex, Modal, Radio, Select, Space, Typography } from "antd"
 import { useState } from "react";
 
 interface ModalProps {
     isOpen: boolean;
-    setIsOpen: (e: boolean) => void;
     options: { value: string, label: string }[];
-    selectedLink?: number[]; 
+    selectedLink?: number[];
+    closeModal: (key: string) => void;
 }
 
-const ModalComponent: React.FC<ModalProps> = ({ isOpen, setIsOpen, options, selectedLink }) => {
+export const MoveLinkModal: React.FC<ModalProps> = ({ isOpen, closeModal, options, selectedLink }) => {
     const [radioValue, setRadioValue] = useState('private');
-
-    const handleRadioChange = (e: any) => {
-      setRadioValue(e.target.value);
-    };
-
+    
     const handleOk = () => {
-        setIsOpen(false);
-    };
-    const handleCancel = () => {
-        setIsOpen(false);
-    };
-
+        alert('이동완료!');
+    }
+    const handleRadioChange = (e: any) => {
+        setRadioValue(e.target.value);
+      };
+    
     return (
         <Modal 
-                title="링크 이동" 
-                open={isOpen} 
-                onOk={handleOk} 
-                onCancel={handleCancel}
-                style={{ padding: 30 }}
-            >
+            title="링크 이동" 
+            open={isOpen} 
+            onOk={handleOk} 
+            onCancel={() => closeModal('moveLink')}
+            style={{ padding: 30 }}
+        >
+            <Divider style={{ margin: '10px 0px 20px 0px'}}/>
                 <Typography.Text style={{ color: '#132639' }} strong>
                     선택한 링크 key :  
                     {selectedLink && selectedLink.map((link, index) => {
@@ -40,7 +37,7 @@ const ModalComponent: React.FC<ModalProps> = ({ isOpen, setIsOpen, options, sele
                         )
                     })}
                 </Typography.Text>
-                  <Space
+                <Space
                         direction="vertical"
                         size="middle"
                         style={{
@@ -74,7 +71,7 @@ const ModalComponent: React.FC<ModalProps> = ({ isOpen, setIsOpen, options, sele
                         options={options}
                     />
                 </Space>
-            </Modal>
+            <Divider style={{ margin: '30px 0px 20px 0px'}}/>
+        </Modal>
     )
 }
-export default ModalComponent;

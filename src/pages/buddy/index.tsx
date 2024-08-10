@@ -1,15 +1,19 @@
 import { Avatar, Button, Divider, Flex, Image, List, Popover, Skeleton, Tooltip, Typography } from "antd";
+import { InvitationModal } from "components/modals/InvitationModal";
 import { SearchComponent } from "components/Search";
+import { useModal } from "hooks/useModal";
 import { useEffect, useState } from "react";
 
 const count = 3;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`
 
-const BuddyPage = () => {
+const BuddyListPage = () => {
     const [initLoading, setInitLoading] = useState(true);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [list, setList] = useState<any[]>([]);
+
+    const { isOpen, openModal, closeModal } = useModal();
 
     useEffect(() => {
       fetch(fakeDataUrl)
@@ -61,6 +65,7 @@ const BuddyPage = () => {
     ) : null;
 
     return (
+      <>
         <div style={{ height: '100%', padding: '0px 25px 50px 25px '}}>
             <Flex justify="flex-start">
                 <Typography.Title level={3}>버디</Typography.Title>
@@ -68,9 +73,15 @@ const BuddyPage = () => {
             <div style={{ padding: '10px 0px 30px 0px'}}>
                 <SearchComponent />
             </div>
-            <Tooltip title="친구를 초대해보세요!" color={'gold'}>
-                <Image style={{width: 200, borderRadius: 10, paddingBottom: 20}} src={'/images/invitation.png'} alt="invitation" preview={false} />
-            </Tooltip>
+            {/* <Tooltip title="친구를 초대해보세요!" color={'gold'} trigger={"hover"}> */}
+                <Image 
+                  style={{width: 200, borderRadius: 10, paddingBottom: 20}} 
+                  src={'/images/invitation.png'} 
+                  alt="invitation" 
+                  preview={false}
+                  onClick={() => openModal('invitation')}
+                />
+            {/* </Tooltip> */}
             <Divider />
             <div>
                 <List 
@@ -95,6 +106,11 @@ const BuddyPage = () => {
                 />
             </div>
         </div>
+        {/* 초대장 모달 */}
+        {isOpen('invitation') && (
+          <InvitationModal closeModal={closeModal} isOpen={isOpen('invitation')}/>
+        )}
+      </>
     )
 }
-export default BuddyPage;
+export default BuddyListPage;
