@@ -1,20 +1,17 @@
-import { Flex, Modal, Radio, Select, Space, Typography } from "antd";
+import { Modal, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 interface ModalProps {
-    type: string;
     isOpen: boolean;
-    setIsOpen: (e: boolean) => void;
+    closeModal: (key: string) => void;
+    type: string;
     selectedLink?: number[];
     handleOk: any;
 }
 
-const AlertModalComponent: React.FC<ModalProps> = ({ type, handleOk, isOpen, setIsOpen, selectedLink }) => {
+export const AlertModal: React.FC<ModalProps> = ({ isOpen, closeModal, type, selectedLink, handleOk }) => {
     const [title, setTitle] = useState<string>('');
 
-    const handleCancel = () => {
-        setIsOpen(false);
-    };
 
     const createTitle = (type: string) => {
         switch (type) {
@@ -35,11 +32,11 @@ const AlertModalComponent: React.FC<ModalProps> = ({ type, handleOk, isOpen, set
     }, [type])
 
     return (
-        <Modal 
+        <Modal
                 title={title} 
                 open={isOpen} 
                 onOk={handleOk} 
-                onCancel={handleCancel}
+                onCancel={() => closeModal('alert')}
                 style={{ padding: 30 }}
             >
             <Typography.Text style={{ color: '#132639' }} strong>
@@ -55,4 +52,3 @@ const AlertModalComponent: React.FC<ModalProps> = ({ type, handleOk, isOpen, set
         </Modal>
     )
 }
-export default AlertModalComponent;
