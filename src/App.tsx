@@ -1,22 +1,20 @@
 import { ConfigProvider, Flex } from 'antd';
 import './App.css';
-import AddLinkPage from './page/AddLinkPage';
-import HomePage from './page/HomePage';
+import AddLinkPage from './pages/link/add';
 import './style/index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LayoutComponent from 'components/template/Layout';
-import MyLinkPage from 'page/MyLinkPage';
-import MainPage from 'pages/main';
+
 import LoginPage from 'pages/login';
 import SearchPage from 'pages/search';
 import TestPage from 'pages/test';
 import BuddyListPage from 'pages/buddy';
-import LinkPage from 'pages/link';
 import LinkDetailPage from 'pages/link/detail';
-
-import UserEditPage from 'page/UserEditPage';
-import UserPage from 'page/UserPage';
-import BuddyPage from 'page/BuddyPage';
+import UserEditPage from 'pages/user/edit';
+import BuddyPage from 'pages/buddy/detail';
+import HomePage from 'pages/main';
+import UserPage from 'pages/user';
+import MyLinkPage from 'pages/link';
 
 function App() {
   const antdTheme = {
@@ -37,14 +35,12 @@ function App() {
               <Route path="/my" element={<MyLinkPage />} />
               <Route path="/buddylist" element={<BuddyListPage />} />
               <Route path="/buddy" element={<BuddyPage />} />
-              <Route path="/user" element={<UserPage />} />
-              <Route path="/user/:userId" element={<UserEditPage />} />
+              <Route path="/user/:userId" element={<UserPage userId="1" />} />
+              <Route path="/user/edit/:userId" element={<UserEditPage />} />
               <Route path="/add-link" element={<AddLinkPage />} />
-              <Route path="/main" element={<MainPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/test" element={<TestPage />} />
-              <Route path="/link" element={<LinkPage />} />
               <Route path="/link/:id" element={<LinkDetailPage />} />
             </Routes>
           </ConfigProvider>

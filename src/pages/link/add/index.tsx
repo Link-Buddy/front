@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Button, Radio, Select, Form } from 'antd';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const { TextArea } = Input;
 const { Option } = Select;

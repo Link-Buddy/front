@@ -2,11 +2,16 @@ import React from 'react';
 import { Avatar } from 'antd';
 
 interface UserProfileProps {
+  userId: number;
   username: string;
   imgSrc: string;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ username, imgSrc }) => {
+const UserProfile: React.FC<UserProfileProps> = ({
+  userId,
+  username,
+  imgSrc,
+}) => {
   return (
     <div className="flex flex-col items-center">
       <Avatar size={80} icon={<img src={imgSrc} alt={username} />} />
