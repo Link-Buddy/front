@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
-import FolderComponent from '../components/Folder';
-import FloatAddLinkBtn from '../components/FloatAddLinkBtn';
+import FolderComponent from '../../../components/Folder';
+import FloatAddLinkBtn from '../../../components/FloatAddLinkBtn';
 import UserProfile from 'components/UserProfile';
-import '../style/css/buddy.css';
+import '../../../style/css/buddy.css';
+
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { SearchComponent } from 'components/Search';
+
 const BuddyPage: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -37,15 +39,18 @@ const BuddyPage: React.FC = () => {
           className="flex space-x-8 mr-10 ml-10 overflow-x-auto no-scrollbar"
         >
           <UserProfile
+            userId={1}
             username="User 1"
             imgSrc="https://via.placeholder.com/64"
           />
 
           <UserProfile
+            userId={2}
             username="User 2"
             imgSrc="https://via.placeholder.com/64"
           />
           <UserProfile
+            userId={3}
             username="User 3"
             imgSrc="https://via.placeholder.com/64"
           />
