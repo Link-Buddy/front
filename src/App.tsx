@@ -33,8 +33,8 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/home" element={<HomePage />} />
               <Route path="/my" element={<MyLinkPage />} />
-              <Route path="/buddylist" element={<BuddyListPage />} />
-              <Route path="/buddy" element={<BuddyPage />} />
+              <Route path="/buddy/:buddyId" element={<BuddyPage />} />
+              <Route path="/buddy/list" element={<BuddyListPage />} />
               <Route path="/user/:userId" element={<UserPage userId="1" />} />
               <Route path="/user/edit/:userId" element={<UserEditPage />} />
               <Route path="/add-link" element={<AddLinkPage />} />
