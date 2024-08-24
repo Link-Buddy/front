@@ -30,7 +30,7 @@ const BuddyListPage = () => {
       console.log('get result ??', result);
 
       setInitLoading(false);
-      setList(result.data);
+      setList(result);
     }
 
     // 회원 버디 수정
@@ -63,8 +63,8 @@ const BuddyListPage = () => {
                 <SearchComponent />
             </div>
             {/* <Tooltip title="친구를 초대해보세요!" color={'gold'} trigger={"hover"}> */}
-                <Image 
-                  style={{width: 200, borderRadius: 10, paddingBottom: 20}} 
+                <Image
+                  style={{width: 200, borderRadius: 10, paddingBottom: 20, cursor: 'pointer'}} 
                   src={'/images/invitation.png'} 
                   alt="invitation" 
                   preview={false}
@@ -87,7 +87,7 @@ const BuddyListPage = () => {
                       // actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
                       >
                         <div>
-                          <a onClick={() => navigate(`/buddy/${item.id}`)}>
+                          <a onClick={() => navigate(`/buddy/${item.buddyId}`)}>
                             <Typography.Text strong>{item.name}</Typography.Text>
                           </a>
                         </div>

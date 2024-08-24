@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FolderComponent from '../../../components/Folder';
 import FloatAddLinkBtn from '../../../components/FloatAddLinkBtn';
 import UserProfile from 'components/UserProfile';
@@ -6,10 +6,16 @@ import '../../../style/css/buddy.css';
 
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { SearchComponent } from 'components/Search';
+import { useParams } from 'react-router-dom';
+import { getBuddyUserList } from 'api/buddy';
 
 const BuddyPage: React.FC = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { buddyId } = useParams();
+  // 버디 회원 리스트
+  const [buddyUserList, setBuddyUserList] = useState<BuddyUser[]>([]);
 
+  // 스크롤
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -18,12 +24,23 @@ const BuddyPage: React.FC = () => {
       });
     }
   };
-
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: 150, behavior: 'smooth' });
     }
   };
+
+  /** 버디 회원 조회 */
+  const getBuddyUserListData = async () => {
+    console.log('buddyId', buddyId);
+    const result = await getBuddyUserList(Number(buddyId));
+    console.log('get buddyUser list result ??', result);
+    setBuddyUserList(result);
+  }
+
+  useEffect(() => {
+    getBuddyUserListData()
+  }, []);
 
   return (
     <div className="p-4 relative">
@@ -38,22 +55,13 @@ const BuddyPage: React.FC = () => {
           ref={scrollContainerRef}
           className="flex space-x-8 mr-10 ml-10 overflow-x-auto no-scrollbar"
         >
-          <UserProfile
-            userId={1}
-            username="User 1"
-            imgSrc="https://via.placeholder.com/64"
-          />
-
-          <UserProfile
-            userId={2}
-            username="User 2"
-            imgSrc="https://via.placeholder.com/64"
-          />
-          <UserProfile
-            userId={3}
-            username="User 3"
-            imgSrc="https://via.placeholder.com/64"
-          />
+          {buddyUserList.map((buddyUser, index) => (
+            <UserProfile
+              userId={buddyUser.id}
+              username={buddyUser.name}
+              imgSrc="https://via.placeholder.com/64"
+            />
+          ))}
         </div>
         <button
           onClick={scrollRight}
