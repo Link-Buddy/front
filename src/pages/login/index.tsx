@@ -1,21 +1,32 @@
 import { Button, Form, Input, Typography } from 'antd';
 import { signIn } from 'api/auth';
 import { useState } from 'react';
-import { saveAccessKey } from 'utils/storage';
+import { useNavigate } from 'react-router-dom';
+import { saveAccessKey } from 'utils/authStorage';
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string | null>(null); // 로그인 에러 상태
+
+  const navigate = useNavigate();
 
   const handleSignIn = async () => {
+    setLoading(true);
+    setLoginError(null); // 이전 에러 메시지 초기화
+
     try {
       const data = await signIn(email, password);
-      saveAccessKey(data.accessKey);
-      alert('로그인 성공!');
+      saveAccessKey(data.accessToken);
+      navigate('/home');
     } catch (error) {
+      console.log('error', error);
       if (error instanceof Error) {
-        alert(error.message);
+        setLoginError('로그인 정보가 일치하지 않습니다.');
       }
+    } finally {
+      setLoading(false); // 로딩 종료
     }
   };
 
@@ -52,6 +63,7 @@ const LoginPage = () => {
         <Form.Item
           label="email"
           name="email"
+          validateStatus={loginError ? 'error' : ''} // 에러 상태일 때 에러 스타일 적용
           rules={[
             {
               required: true,
@@ -68,6 +80,8 @@ const LoginPage = () => {
         <Form.Item
           label="Password"
           name="password"
+          validateStatus={loginError ? 'error' : ''}
+          help={loginError} // 에러 메시지 표시
           rules={[
             {
               required: true,
@@ -87,7 +101,13 @@ const LoginPage = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit" onClick={handleSignIn}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            className="mt-5"
+            onClick={handleSignIn}
+          >
             Submit
           </Button>
         </Form.Item>

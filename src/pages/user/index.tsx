@@ -1,12 +1,14 @@
 import {
   HeartOutlined,
   LinkOutlined,
+  LogoutOutlined,
   RollbackOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import { removeAccessKey } from 'utils/authStorage';
 
 const UserPage: React.FC<{ userId: string }> = ({ userId }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -24,11 +26,18 @@ const UserPage: React.FC<{ userId: string }> = ({ userId }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const navigate = useNavigate();
+
+  const handleLogoutClick = () => {
+    removeAccessKey(); // JWT 토큰 제거
+    navigate('/login'); // 로그인 페이지로 리디렉션
+  };
 
   const handleEditClick = () => {
     navigate(`/user/edit/${userId}`);
   };
+
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col mr-8 ml-8 items-center p-4 bg-white rounded-lg  mx-auto">
       <div className="flex items-center w-full mb-14">
@@ -66,6 +75,14 @@ const UserPage: React.FC<{ userId: string }> = ({ userId }) => {
       </div>
 
       <div className="flex flex-col gap-4 mt-12">
+        <Button
+          type="link"
+          icon={<LogoutOutlined />} // 로그아웃 아이콘
+          className="text-red-500"
+          onClick={handleLogoutClick} // 로그아웃 클릭 핸들러
+        >
+          로그아웃
+        </Button>
         <h5 className="mt-16 cursor-pointer text-red-500" onClick={showModal}>
           회원탈퇴
         </h5>
