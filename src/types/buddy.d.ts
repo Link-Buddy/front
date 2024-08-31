@@ -11,3 +11,12 @@ type Buddy = {
     alertTf: boolean;
     pinTf: boolean
 }
+
+type BuddyInvitation = {
+    id: number;
+    name: string;
+    buddyId: number;
+    acceptTf: boolean;
+    acceptDt: Date;
+    createdAt: Date;
+}

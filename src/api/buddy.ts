@@ -26,3 +26,9 @@ export const addBuddyUser = async (buddyUserData: any): Promise<any> => {
     const { data } = await axiosInstance.post('/buddy/user', buddyUserData);
     return data;
 }
+
+/** 받은 초대장 리스트 조회 */
+export const getBuddyInvitation = async (): Promise<BuddyInvitation[]> => {
+    const { data } = await axiosInstance.get('/buddy/user/invitation');
+    return data.data;
+}

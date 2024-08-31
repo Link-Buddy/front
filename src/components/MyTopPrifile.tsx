@@ -9,7 +9,7 @@ interface MyTopProfileProps {
 const MyTopProfile: React.FC<MyTopProfileProps> = ({ userId, imgSrc }) => {
   return (
     <div className="flex flex-col items-center">
-      <Avatar size={50} icon={<img src={imgSrc} />} />
+      <Avatar size={40} icon={<img src={imgSrc} />} />
     </div>
   );
 };
