@@ -35,10 +35,8 @@ const BuddyListPage = () => {
 
     // 회원 버디 수정
     const updateBuddyUserData = async (type: string, data: any) => {
-      const userId = 29;
       const body = {
-        ...data,
-        userId: userId,
+        ...data
       };
       body[type] = !body[type];
       const result = await updateBuddyUser(data.id, body)
