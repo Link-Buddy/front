@@ -1,19 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FolderComponent from '../../components/Folder';
 import FloatAddLinkBtn from '../../components/FloatAddLinkBtn';
 import { SearchComponent } from 'components/Search';
+import { Category } from 'types/Category';
+import { getMyCategoryList } from 'api/category';
 
 const MyLinkPage: React.FC = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoryList = await getMyCategoryList();
+        setCategories(categoryList);
+      } catch (err) {
+        setError('Failed to fetch categories.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <div className="p-4 relative">
       <div>
         <SearchComponent />
       </div>
       <div className="flex flex-wrap justify-between ">
-        <FolderComponent id={1} title="여행" count={5} />
-        <FolderComponent id={2} title="폴더 2" count={3} />
-        <FolderComponent id={3} title="폴더 3" count={8} />
-        <FolderComponent id={4} title="폴더 4" count={2} />
+        {categories.map((category) => (
+          <FolderComponent
+            key={category.id}
+            id={category.id}
+            title={category.categoryName}
+            count={category.linkCount}
+          />
+        ))}
       </div>
       <div
         className=" "
