@@ -1,9 +1,8 @@
 import { axiosInstance } from "lib/axios"
 
 /** 버디 리스트 조회 */
-export const getBuddyList = async (userId: number): Promise<Buddy[]> => {
-    const params = { userId : userId }
-    const { data } = await axiosInstance.get('/buddy', { params });
+export const getBuddyList = async (): Promise<Buddy[]> => {
+    const { data } = await axiosInstance.get('/buddy');
     return data.data;
 }
 

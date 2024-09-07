@@ -25,8 +25,7 @@ const BuddyListPage = () => {
 
     // 버디 리스트 조회
     const getBuddyListData = async () => {
-      const userId = 29;
-      const result = await getBuddyList(userId);
+      const result = await getBuddyList();
       console.log('get result ??', result);
 
       setInitLoading(false);
@@ -43,9 +42,6 @@ const BuddyListPage = () => {
       console.log('update result ??', result);
       getBuddyListData()
     }
-
-    // useEffect(() => {
-    // }, [list])
     
     useEffect(() => {
       getBuddyListData()
