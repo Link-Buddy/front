@@ -12,7 +12,7 @@ const FolderComponent: React.FC<FolderProps> = ({ id, title, count }) => {
   const navigate = useNavigate();
   const onClickFolderDetail = () => {
     console.log('폴더 상세 이동');
-    navigate(`/link/${id}`);
+    navigate(`/my/category/${id}`);
   };
   return (
     <Space size="large" className="p-4 m-2 ">
