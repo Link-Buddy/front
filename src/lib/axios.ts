@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { getAccessKey } from 'utils/authStorage';
 
 const baseURL = 'http://localhost:8080';
@@ -60,6 +59,12 @@ axiosInstance.interceptors.response.use(
         }
         return Promise.reject(error);
       });
+    }
+
+    // 409 에러 처리 추가
+    if (error.response?.status === 409) {
+      alert(error.response.data.message); // 409 에러 시 alert 메시지 표시
+      return;
     }
 
     console.log('interceptor response error');
