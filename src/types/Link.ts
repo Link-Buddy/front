@@ -17,3 +17,10 @@ export interface CreateLink {
   description: string;
   categoryId: string;
 }
+
+export interface UpdateLink {
+  linkUrl: string;
+  name: string;
+  description: string;
+  categoryId: string;
+}

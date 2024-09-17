@@ -5,7 +5,7 @@ import { SearchComponent } from 'components/Search';
 import { Category } from 'types/Category';
 import { createMyCategory, getMyCategoryList } from 'api/category';
 import { Divider, Row, Typography } from 'antd';
-import AddCategoryModal from 'components/modals/AddCategoryModel';
+import AddCategoryModal from 'components/modals/AddCategoryModal';
 
 const MyLinkPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
