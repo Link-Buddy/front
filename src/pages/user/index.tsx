@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { removeAccessKey } from 'utils/authStorage';
 
-const UserPage: React.FC<{ userId: string }> = ({ userId }) => {
+const UserPage: React.FC<{}> = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const showModal = () => {
@@ -33,7 +33,7 @@ const UserPage: React.FC<{ userId: string }> = ({ userId }) => {
   };
 
   const handleEditClick = () => {
-    navigate(`/user/edit/${userId}`);
+    navigate(`/user/edit/my`);
   };
 
   const navigate = useNavigate();

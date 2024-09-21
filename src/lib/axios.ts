@@ -61,6 +61,11 @@ axiosInstance.interceptors.response.use(
       });
     }
 
+    // 400 에러 처리 추가
+    if (error.response?.status === 400) {
+      alert(error.response.data.message); // 409 에러 시 alert 메시지 표시
+      return;
+    }
     // 409 에러 처리 추가
     if (error.response?.status === 409) {
       alert(error.response.data.message); // 409 에러 시 alert 메시지 표시

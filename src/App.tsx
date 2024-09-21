@@ -40,8 +40,8 @@ function App() {
                 path="/buddy/invitation"
                 element={<BuddyInvitationPage />}
               />
-              <Route path="/user/:userId" element={<UserPage userId="1" />} />
-              <Route path="/user/edit/:userId" element={<UserEditPage />} />
+              <Route path="/user/:userId" element={<UserPage />} />
+              <Route path="/user/edit/my" element={<UserEditPage />} />
               <Route path="/add-link" element={<AddLinkPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/search" element={<SearchPage />} />
