@@ -13,6 +13,14 @@ export const getMyInfo = async (): Promise<UserInfo> => {
   const { data } = await axiosInstance.get('/user/my');
   return data.data;
 };
+/** 내 정보 수정  */
+export const updateMyInfo = async (userInfo: {
+  name: string;
+}): Promise<UserInfo> => {
+  const { data } = await axiosInstance.patch('/user/my', userInfo);
+  return data.data;
+};
+
 /** 비밀번호 변경  */
 export const changeMyPassword = async (
   currentPassword: string,

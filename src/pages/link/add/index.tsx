@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Input, Button, Radio, Select, Form } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { createLink } from 'api/link';
-import { getMyCategoryList } from 'api/category';
+import { getBuddyCategoryList, getMyCategoryList } from 'api/category';
 import { Category } from 'types/Category';
+import { getBuddyList } from 'api/buddy';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -11,11 +12,12 @@ const { Option } = Select;
 const AddLinkForm = () => {
   const [radioValue, setRadioValue] = useState('private');
   const [categories, setCategories] = useState<Category[]>([]); // 카테고리 상태 추가
+  const [buddyList, setBuddyList] = useState<Buddy[]>([]); // 버디 카테고리 상태 추가
 
   useEffect(() => {
     const getCategories = async () => {
-      const data = await getMyCategoryList(); // 카테고리 데이터 가져오기
-      setCategories(data);
+      const initialData = await getMyCategoryList(); // 초기 데이터 로드
+      setCategories(initialData);
     };
     getCategories();
   }, []);
@@ -27,14 +29,22 @@ const AddLinkForm = () => {
     categoryId: '',
   });
 
-  const handleRadioChange = (e: any) => {
-    setRadioValue(e.target.value);
-  };
+  async function handleRadioChange(value: 'private' | 'buddy') {
+    setRadioValue(value);
+    if (value === 'private') {
+      let data = await getMyCategoryList();
+      setCategories(data);
+    } else {
+      const buddylist = await getBuddyList(); // 버디 카테고리 데이터 로드
+      setBuddyList(buddylist);
+      setCategories([]);
+    }
+  }
 
   const navigate = useNavigate();
   const handleSubmit = async () => {
     await createLink(linkData);
-    navigate('/home');
+    navigate(`/category/${linkData.categoryId}`);
   };
   return (
     <div>
@@ -69,7 +79,7 @@ const AddLinkForm = () => {
           <Radio.Group
             defaultValue="private"
             className="flex justify-between"
-            onChange={handleRadioChange}
+            onChange={(e) => handleRadioChange(e.target.value)}
           >
             <Radio.Button value="private" className="flex-1 text-center">
               PRIVATE
@@ -83,19 +93,26 @@ const AddLinkForm = () => {
           <Form.Item label="버디그룹">
             <Select
               placeholder="버디그룹"
-              onChange={(value) =>
-                setLinkData({ ...linkData, categoryId: value })
-              } // 버디그룹 상태 업데이트
+              onChange={async (value) => {
+                setLinkData({ ...linkData, categoryId: value });
+                const buddyCategory = await getBuddyCategoryList(value); // 선택한 버디에 대한 카테고리 요청
+                setCategories(buddyCategory); // 버디 카테고리 업데이트
+              }} // 버디그룹 상태 업데이트
             >
-              <Option value="group1">가족공유</Option>
-              <Option value="group2">우아한캠프</Option>
+              {buddyList.map(
+                // 버디 카테고리 리스트로 표시
+                (buddy) => (
+                  <Option key={buddy.id} value={buddy.buddyId}>
+                    {buddy.name}
+                  </Option>
+                )
+              )}
             </Select>
           </Form.Item>
         )}
         <Form.Item label="폴더">
           <Select
             placeholder="폴더"
-            defaultValue="normal"
             onChange={(value) =>
               setLinkData({ ...linkData, categoryId: value })
             } // 폴더 상태 업데이트
@@ -109,8 +126,6 @@ const AddLinkForm = () => {
                 </Option>
               )
             )}
-            <Option value="normal">미분류</Option>
-            {/* 나중엔 미분류도 기본 폴더 생성 */}
           </Select>
         </Form.Item>
         <Form.Item className="mt-20">
