@@ -1,26 +1,27 @@
 export interface Link {
-  id: number;
-  name: string;
-  description: string;
-  linkUrl: string;
-  categoryId: number | null;
-  deleteTf: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  userId: number;
-  favo?: boolean;
+    id: number;
+    name: string;
+    description: string;
+    linkUrl: string;
+    categoryId: number | null;
+    deleteTf: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: number;
+    favo?: boolean;
 }
 
 export interface CreateLink {
-  linkUrl: string;
-  name: string;
-  description: string;
-  categoryId: string;
+    linkUrl: string;
+    name: string;
+    description: string;
+    categoryId: string;
 }
 
 export interface UpdateLink {
-  linkUrl: string;
-  name: string;
-  description: string;
-  categoryId: string;
+    id: number;
+    linkUrl: string;
+    name: string;
+    description: string;
+    categoryId: number | null;
 }
