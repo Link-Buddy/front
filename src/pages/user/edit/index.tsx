@@ -4,10 +4,9 @@ import { Form, Input, Button, Modal } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { UserInfo } from 'types/User'; // UserInfo 타입 추가
 import React, { useEffect, useState } from 'react'; // useEffect 및 useState 추가
-import { changeMyPassword, getMyInfo } from 'api/user';
+import { changeMyPassword, getMyInfo, updateMyInfo } from 'api/user';
 
 const UserEditPage: React.FC = () => {
-  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null); // 사용자 정보 상태 추가
@@ -40,6 +39,15 @@ const UserEditPage: React.FC = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    try {
+      const values = await form.validateFields(); // 폼의 값을 검증하고 가져옴
+      await updateMyInfo(values);
+      alert('정보가 수정되었습니다.');
+    } catch (error) {
+      // 에러 처리 로직 추가
+    }
+  };
   const handleModalCancel = () => {
     setIsModalVisible(false);
   };
@@ -116,7 +124,12 @@ const UserEditPage: React.FC = () => {
               </Button>
             </Form.Item>
             <Form.Item className="w-full">
-              <Button type="primary" htmlType="submit" className="w-3/4 h-10">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-3/4 h-10"
+                onClick={handleSubmit}
+              >
                 수정
               </Button>
             </Form.Item>

@@ -6,8 +6,12 @@ export const getMyCategoryList = async (): Promise<Category[]> => {
   const { data } = await axiosInstance.get('/categories/my');
   return data.data;
 };
-export const getBuddyCategoryList = async (): Promise<Category[]> => {
-  const { data } = await axiosInstance.get('/categories/buddy');
+export const getBuddyCategoryList = async (
+  buddyId: string
+): Promise<Category[]> => {
+  const { data } = await axiosInstance.get(
+    `/categories/buddy?buddyId=${buddyId}`
+  );
   return data.data;
 };
 
@@ -22,6 +26,9 @@ export const createBuddyCategory = async (
   categoryName: string,
   buddyId: string
 ): Promise<Category> => {
-  const { data } = await axiosInstance.post('/categories/buddy');
+  const { data } = await axiosInstance.post('/categories/buddy', {
+    categoryName,
+    buddyId,
+  });
   return data.data;
 };

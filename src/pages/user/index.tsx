@@ -7,12 +7,24 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { removeAccessKey } from 'utils/authStorage';
+import { getMyInfo } from 'api/user';
 
 const UserPage: React.FC<{}> = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<{
+    name: string;
+    email: string;
+  } | null>(null);
 
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const data = await getMyInfo();
+      setUserInfo(data);
+    };
+    fetchUserInfo();
+  }, []);
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -44,8 +56,12 @@ const UserPage: React.FC<{}> = () => {
         <Avatar size={50} icon={<UserOutlined />} className="mr-4" />
         <div className="flex justify-between w-full items-center">
           <div className="flex flex-col">
-            <span className="font-bold text-xl ">이여름</span>
-            <span className="text-gray-600">yl9517@naver.com</span>
+            {userInfo && (
+              <>
+                <span className="font-bold text-xl">{userInfo.name}</span>
+                <span className="text-gray-600">{userInfo.email}</span>
+              </>
+            )}
           </div>
           <Button
             type="link"

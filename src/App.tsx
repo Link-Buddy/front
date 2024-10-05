@@ -19,53 +19,44 @@ import BuddyInvitationPage from 'pages/buddy/invitation';
 import AddBuddyPage from 'pages/buddy/add';
 
 function App() {
-    const antdTheme = {
-        token: {
-            fontFamily: 'Pretendard',
-        },
-    };
+  const antdTheme = {
+    token: {
+      fontFamily: 'Pretendard',
+    },
+  };
 
-    return (
-        <div className="App">
-            <Flex justify="center">
-                <LayoutComponent>
-                    <ConfigProvider theme={antdTheme}>
-                        <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/home" element={<HomePage />} />
-                            <Route path="/my" element={<MyLinkPage />} />
-                            <Route
-                                path="/buddy/:buddyId"
-                                element={<BuddyPage />}
-                            />
-                            <Route
-                                path="/buddy/list"
-                                element={<BuddyListPage />}
-                            />
-                            <Route
-                                path="/buddy/invitation"
-                                element={<BuddyInvitationPage />}
-                            />
-                            <Route path="/user/:userId" element={<UserPage />} />
-                            <Route path="/user/edit/my" element={<UserEditPage />} />
-                            <Route path="/add-link" element={<AddLinkPage />} />
-                            <Route
-                                path="/add-buddy"
-                                element={<AddBuddyPage />}
-                            />
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/search" element={<SearchPage />} />
-                            <Route path="/test" element={<TestPage />} />
-                            <Route
-                                path="/my/category/:categoryId"
-                                element={<LinkDetailPage />}
-                            />
-                        </Routes>
-                    </ConfigProvider>
-                </LayoutComponent>
-            </Flex>
-        </div>
-    );
+  return (
+    <div className="App">
+      <Flex justify="center">
+        <LayoutComponent>
+          <ConfigProvider theme={antdTheme}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/my" element={<MyLinkPage />} />
+              <Route path="/buddy/:buddyId" element={<BuddyPage />} />
+              <Route path="/buddy/list" element={<BuddyListPage />} />
+              <Route
+                path="/buddy/invitation"
+                element={<BuddyInvitationPage />}
+              />
+              <Route path="/user/:userId" element={<UserPage />} />
+              <Route path="/user/edit/my" element={<UserEditPage />} />
+              <Route path="/add-link" element={<AddLinkPage />} />
+              <Route path="/add-buddy" element={<AddBuddyPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/test" element={<TestPage />} />
+              <Route
+                path="/category/:categoryId"
+                element={<LinkDetailPage />}
+              />
+            </Routes>
+          </ConfigProvider>
+        </LayoutComponent>
+      </Flex>
+    </div>
+  );
 }
 export default App;
