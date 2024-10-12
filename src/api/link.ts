@@ -29,3 +29,10 @@ export const deleteLink = async (linkId: number): Promise<any> => {
     const { data } = await axiosInstance.delete(`/links/${linkId}`);
     return data;
 };
+
+/** 링크 검색 */
+export const searchLink = async (keyword: string): Promise<any> => {
+    const params = { keyword: keyword };
+    const { data } = await axiosInstance.get('/links/search', { params });
+    return data.data;
+};
