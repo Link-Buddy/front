@@ -6,4 +6,6 @@ export interface UserInfo {
   statusCd: number;
   fileId: string;
   refreshToken: string;
+  linkCount: number;
+  favoriteCount: number;
 }

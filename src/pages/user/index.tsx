@@ -16,6 +16,8 @@ const UserPage: React.FC<{}> = () => {
   const [userInfo, setUserInfo] = useState<{
     name: string;
     email: string;
+    linkCount: number;
+    favoriteCount: number;
   } | null>(null);
 
   useEffect(() => {
@@ -73,21 +75,25 @@ const UserPage: React.FC<{}> = () => {
         </div>
       </div>
       <div className="flex justify-around w-full mb-4">
-        <div className="text-center">
-          <LinkOutlined className="text-3xl mb-3" />
-          <div className="text-xl font-bold">9</div>
-          <div className="text-gray-600">내가 등록한 링크</div>
-        </div>
-        <div>
-          <HeartOutlined className="text-3xl mb-3" />
-          <div className="text-xl font-bold">3</div>
-          <div className="text-gray-600">즐겨찾기</div>
-        </div>
-        <div className="text-center">
-          <RollbackOutlined className="text-3xl mb-3" />
-          <div className="text-xl font-bold">14</div>
-          <div className="text-gray-600">최근 본 링크</div>
-        </div>
+        {userInfo && (
+          <>
+            <div className="text-center">
+              <LinkOutlined className="text-3xl mb-3" />
+              <div className="text-xl font-bold">{userInfo.linkCount}</div>
+              <div className="text-gray-600">내가 등록한 링크</div>
+            </div>
+            <div>
+              <HeartOutlined className="text-3xl mb-3" />
+              <div className="text-xl font-bold">{userInfo.favoriteCount}</div>
+              <div className="text-gray-600">즐겨찾기</div>
+            </div>
+            <div className="text-center">
+              <RollbackOutlined className="text-3xl mb-3" />
+              <div className="text-xl font-bold">14</div>
+              <div className="text-gray-600">최근 본 링크</div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="flex flex-col gap-4 mt-12">
