@@ -4,5 +4,5 @@ export interface MyLink {
   name: string;
   description: string;
   categoryId: number;
-  favo: boolean;
+  isFavorite: boolean;
 }
