@@ -25,3 +25,12 @@ export interface UpdateLink {
     description: string;
     categoryId: number | null;
 }
+
+export interface SearchLink {
+    buddyName: string | null;
+    categoryName: string;
+    shareTypeCd: number;
+    linkDescription: string;
+    linkName: string;
+    linkUrl: string;
+}

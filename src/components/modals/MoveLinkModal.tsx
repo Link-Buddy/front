@@ -1,5 +1,16 @@
-import { Divider, Flex, Modal, Radio, Select, Space, Typography } from 'antd';
-import { getMyCategoryList } from 'api/category';
+import {
+    Divider,
+    Flex,
+    Form,
+    Modal,
+    Radio,
+    Select,
+    Space,
+    Typography,
+} from 'antd';
+import { getBuddyList } from 'api/buddy';
+import { getBuddyCategoryList, getMyCategoryList } from 'api/category';
+import { changeLinkCategory } from 'api/link';
 import { useEffect, useState } from 'react';
 import { Category } from 'types/Category';
 
@@ -18,16 +29,42 @@ export const MoveLinkModal: React.FC<ModalProps> = ({
     const [categories, setCategories] = useState<
         { label: string; value: number }[]
     >([]);
+    const [buddyId, setBuddyId] = useState<string>('');
+    const [buddyGroup, setBuddyGroup] = useState<
+        { label: string; value: number }[]
+    >([]);
+    const [categoryId, setCategoryId] = useState<string>('');
 
-    const handleOk = () => {
+    const handleOk = async () => {
         alert('이동완료!');
+        if (selectedLink) {
+            console.log('selectedLink', selectedLink[0]);
+            console.log('categoryId', categoryId);
+            const result = await changeLinkCategory(categoryId, selectedLink);
+        }
     };
     const handleRadioChange = (e: any) => {
+        // 초기화
+        setCategories([]);
         setRadioValue(e.target.value);
+        const radioBtnValue = e.target.value;
+        if (radioBtnValue === 'buddy') {
+            getBuddyGroup();
+        } else {
+            getCategories();
+        }
     };
 
+    /** 카테고리 데이터 */
     const getCategories = async () => {
-        const data = await getMyCategoryList(); // 카테고리 데이터 가져오기
+        let data: Category[] = [];
+        if (radioValue === 'buddy') {
+            console.log('categoryID', buddyId);
+            data = await getBuddyCategoryList(buddyId);
+        } else {
+            data = await getMyCategoryList(); // 카테고리 데이터 가져오기
+        }
+        console.log('data', data);
         const newCategories = data.map((item, index) => {
             return {
                 label: item.categoryName,
@@ -36,12 +73,22 @@ export const MoveLinkModal: React.FC<ModalProps> = ({
         });
         setCategories(newCategories);
     };
+    /** 버디그룹 */
+    const getBuddyGroup = async () => {
+        const buddylist = await getBuddyList(); // 버디그룹 데이터 가져오기
+        console.log('buddylist', buddylist);
+        const newData = buddylist.map((item, index) => {
+            return {
+                label: item.name,
+                value: Number(item.buddyId),
+            };
+        });
+        setBuddyGroup(newData);
+    };
 
     useEffect(() => {
-        if (isOpen) {
-            getCategories();
-        }
-    }, [isOpen]);
+        getCategories();
+    }, [buddyId]);
 
     return (
         <Modal
@@ -55,13 +102,13 @@ export const MoveLinkModal: React.FC<ModalProps> = ({
             <Typography.Text style={{ color: '#132639' }} strong>
                 선택한 링크 key :
                 {selectedLink &&
-                    selectedLink.map((link, index) => {
+                    selectedLink.map((linkId, index) => {
                         return (
                             <Typography.Text
                                 style={{ color: '#132639' }}
                                 key={index}
                             >
-                                {link},
+                                {linkId},
                             </Typography.Text>
                         );
                     })}
@@ -92,10 +139,8 @@ export const MoveLinkModal: React.FC<ModalProps> = ({
                     <Select
                         style={{ width: '100%' }}
                         placeholder="버디그룹"
-                        options={[
-                            { label: '가족', value: 'family' },
-                            { label: '스터디', value: 'study' },
-                        ]}
+                        options={buddyGroup}
+                        onChange={(value) => setBuddyId(value)}
                     />
                 )}
                 <Select
@@ -112,6 +157,7 @@ export const MoveLinkModal: React.FC<ModalProps> = ({
                             );
                     }}
                     options={categories}
+                    onChange={(value) => setCategoryId(value)}
                 />
             </Space>
             <Divider style={{ margin: '30px 0px 20px 0px' }} />
