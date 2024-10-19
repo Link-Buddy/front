@@ -1,7 +1,7 @@
 // import { Link } from '../types/Link';
 
 import { axiosInstance } from 'lib/axios';
-import { CreateLink, Link, UpdateLink } from 'types/Link';
+import { CreateLink, Link, SearchLink, UpdateLink } from 'types/Link';
 
 export const getMyLinkByCategoryId = async (
     categoryId: string
@@ -31,8 +31,20 @@ export const deleteLink = async (linkId: number): Promise<any> => {
 };
 
 /** 링크 검색 */
-export const searchLink = async (keyword: string): Promise<any> => {
+export const searchLink = async (keyword: string): Promise<SearchLink[]> => {
     const params = { keyword: keyword };
     const { data } = await axiosInstance.get('/links/search', { params });
     return data.data;
+};
+/** 링크 이동 */
+export const changeLinkCategory = async (
+    categoryId: string,
+    links: number[]
+): Promise<{ status: string; data: Link }> => {
+    const { data } = await axiosInstance.put(
+        `/links/change-category/${categoryId}`,
+        links
+    );
+    console.log('dataatattttat', data);
+    return data;
 };
