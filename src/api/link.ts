@@ -1,13 +1,15 @@
 // import { Link } from '../types/Link';
 
 import { axiosInstance } from 'lib/axios';
-import { CreateLink, ISearchLink, Link, UpdateLink } from 'types/Link';
+import { LinkCategory } from 'types/Category';
+import { CreateLink, Link, SearchLink, UpdateLink } from 'types/Link';
 
-export const getMyLinkByCategoryId = async (
-  categoryId: string
-): Promise<any> => {
-  const { data } = await axiosInstance.get(`/links/category/${categoryId}`);
-  return data.data;
+export const getLinkByCategoryId = async (
+    categoryId: string
+): Promise<{ category: LinkCategory; links: Link[] }> => {
+    const { data } = await axiosInstance.get(`/links/category/${categoryId}`);
+    return data.data;
+
 };
 export const createLink = async (linkData: CreateLink): Promise<Link> => {
   const { data } = await axiosInstance.post(`/links`, linkData);
