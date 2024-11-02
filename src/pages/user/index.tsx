@@ -77,12 +77,18 @@ const UserPage: React.FC<{}> = () => {
       <div className="flex justify-around w-full mb-4">
         {userInfo && (
           <>
-            <div className="text-center">
+            <div
+              className="text-center cursor-pointer"
+              onClick={() => navigate('/registed')}
+            >
               <LinkOutlined className="text-3xl mb-3" />
               <div className="text-xl font-bold">{userInfo.linkCount}</div>
               <div className="text-gray-600">내가 등록한 링크</div>
             </div>
-            <div>
+            <div
+              className="text-center cursor-pointer"
+              onClick={() => navigate('/favorite')}
+            >
               <HeartOutlined className="text-3xl mb-3" />
               <div className="text-xl font-bold">{userInfo.favoriteCount}</div>
               <div className="text-gray-600">즐겨찾기</div>
