@@ -27,11 +27,11 @@ export interface UpdateLink {
   isFavorite: boolean;
 }
 
-export interface SearchLink {
-    buddyName: string | null;
-    categoryName: string;
-    shareTypeCd: number;
-    linkDescription: string;
-    linkName: string;
-    linkUrl: string;
+export interface ISearchLink {
+  buddyName: string | null;
+  categoryName: string;
+  shareTypeCd: number;
+  linkDescription: string;
+  linkName: string;
+  linkUrl: string;
 }
