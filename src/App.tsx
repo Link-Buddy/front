@@ -17,6 +17,8 @@ import UserPage from 'pages/user';
 import MyLinkPage from 'pages/link';
 import BuddyInvitationPage from 'pages/buddy/invitation';
 import AddBuddyPage from 'pages/buddy/add';
+import FavoritePage from 'pages/favorite';
+import RegistedPage from 'pages/registed';
 
 function App() {
   const antdTheme = {
@@ -47,6 +49,8 @@ function App() {
               <Route path="/add-buddy" element={<AddBuddyPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/favorite" element={<FavoritePage />} />
+              <Route path="/registed" element={<RegistedPage />} />
               <Route path="/test" element={<TestPage />} />
               <Route
                 path="/category/:categoryId"
