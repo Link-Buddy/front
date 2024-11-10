@@ -27,6 +27,15 @@ const UserPage: React.FC<{}> = () => {
     };
     fetchUserInfo();
   }, []);
+
+  const [recentViewCount, setRecentViewCount] = useState(0);
+
+  useEffect(() => {
+    // 로컬 스토리지에서 recentLinks 배열의 길이를 가져옴
+    const recentLinks = JSON.parse(localStorage.getItem('recentLinks') || '[]');
+    setRecentViewCount(recentLinks.length);
+  }, []);
+
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -93,15 +102,17 @@ const UserPage: React.FC<{}> = () => {
               <div className="text-xl font-bold">{userInfo.favoriteCount}</div>
               <div className="text-gray-600">즐겨찾기</div>
             </div>
-            <div className="text-center">
+            <div
+              className="text-center cursor-pointer"
+              onClick={() => navigate('/recent-view')}
+            >
               <RollbackOutlined className="text-3xl mb-3" />
-              <div className="text-xl font-bold">14</div>
+              <div className="text-xl font-bold">{recentViewCount}</div>
               <div className="text-gray-600">최근 본 링크</div>
             </div>
           </>
         )}
       </div>
-
       <div className="flex flex-col gap-4 mt-12">
         <Button
           type="link"

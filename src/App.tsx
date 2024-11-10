@@ -2,6 +2,7 @@ import { ConfigProvider, Flex } from 'antd';
 import './App.css';
 import './style/index.css';
 import LayoutComponent from 'components/template/Layout';
+import { useEffect } from 'react';
 import AppRoutes from 'routes';
 
 function App() {
@@ -12,6 +13,10 @@ function App() {
             colorPrimary: '#457c9d',
         },
     };
+
+  useEffect(() => {
+    localStorage.setItem('recentLinks', JSON.stringify([]));
+  }, []);
 
     return (
         <div className="App">
