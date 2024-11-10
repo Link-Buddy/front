@@ -1,11 +1,13 @@
 import { CloseOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import {
+    Card,
     Col,
     Divider,
     Empty,
     Flex,
     message,
     Row,
+    Skeleton,
     Space,
     Typography,
 } from 'antd';
@@ -40,10 +42,12 @@ const LinkDetailPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [refresh, setRefresh] = useState(0);
     const [category, setCategory] = useState<{
+        categoryId: string;
         categoryName: string;
         buddyId: number;
         shareTypeCd: number;
     }>({
+        categoryId: '',
         categoryName: '',
         buddyId: 0,
         shareTypeCd: 0,
@@ -55,11 +59,13 @@ const LinkDetailPage = () => {
 
     const getMyLinks = async () => {
         if (!categoryId) return;
+        setLoading(true);
         try {
             const result = await getLinkByCategoryId(categoryId);
             console.log('result : ', result);
             setLinks(result.links);
             setCategory({
+                categoryId: categoryId,
                 categoryName: result.category.categoryName,
                 buddyId: result.category.buddyId,
                 shareTypeCd: result.category.shareTypeCd,
@@ -71,8 +77,8 @@ const LinkDetailPage = () => {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    // if (loading) return <div>Loading...</div>;
+    // if (error) return <div>{error}</div>;
 
     /** 링크 리스트 편집 (링크이동, 삭제) */
     const onClickEdit = () => {
@@ -108,21 +114,67 @@ const LinkDetailPage = () => {
                     </Typography.Text>
                 </Row>
                 <Divider style={{ margin: '10px 0px' }} />
-                {/* 링크 */}
-                {links.length > 0 ? (
-                    <LinkComponent
-                        linkList={links as any}
-                        showEdit={showEdit}
-                        selectedLink={selectedLink}
-                        setSelectedLink={setSelectedLink}
-                        setSelectLinkCount={setSelectLinkCount}
-                        refresh={refresh}
-                        setRefresh={setRefresh}
-                    />
+                {/* 링크 목록 */}
+                {loading ? (
+                    <div style={{ paddingBottom: 20, paddingTop: 30 }}>
+                        {/* 링크 목록 skeleton */}
+                        <Row justify={'space-around'}>
+                            {Array(6)
+                                .fill(null)
+                                .map((_, index) => (
+                                    <Col
+                                        offset={1}
+                                        style={{ paddingBottom: 20 }}
+                                        key={`s-${index}`}
+                                    >
+                                        <Card
+                                            hoverable
+                                            size="small"
+                                            style={{
+                                                width: 160,
+                                                // height: 100
+                                            }}
+                                            styles={{
+                                                body: {
+                                                    margin: 0,
+                                                    padding: 10,
+                                                },
+                                            }}
+                                            cover={
+                                                <Skeleton.Image
+                                                    active={true}
+                                                    style={{
+                                                        height: 120,
+                                                        width: 160,
+                                                    }}
+                                                />
+                                            }
+                                        >
+                                            <Skeleton active />
+                                        </Card>
+                                    </Col>
+                                ))}
+                        </Row>
+                    </div>
                 ) : (
-                    <Empty description="링크 데이터가 없습니다!" />
+                    <>
+                        {links.length > 0 ? (
+                            <LinkComponent
+                                linkList={links as any}
+                                showEdit={showEdit}
+                                selectedLink={selectedLink}
+                                setSelectedLink={setSelectedLink}
+                                setSelectLinkCount={setSelectLinkCount}
+                                refresh={refresh}
+                                setRefresh={setRefresh}
+                            />
+                        ) : (
+                            <Empty description="링크 데이터를 지금 추가해보세요!" />
+                        )}
+                    </>
                 )}
             </div>
+            {/* 링크 이동 */}
             {showEdit && (
                 <Row
                     style={{
@@ -193,6 +245,8 @@ const LinkDetailPage = () => {
                     isOpen={isOpen('moveLink')}
                     selectedLink={selectedLink}
                     category={category}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
                 />
             )}
             {/* 알림 모달 */}
