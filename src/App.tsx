@@ -19,6 +19,8 @@ import BuddyInvitationPage from 'pages/buddy/invitation';
 import AddBuddyPage from 'pages/buddy/add';
 import FavoritePage from 'pages/favorite';
 import RegistedPage from 'pages/registed';
+import RecentViewPage from 'pages/recentview';
+import { useEffect } from 'react';
 
 function App() {
   const antdTheme = {
@@ -27,13 +29,16 @@ function App() {
     },
   };
 
+  useEffect(() => {
+    localStorage.setItem('recentLinks', JSON.stringify([]));
+  }, []);
+
   return (
     <div className="App">
       <Flex justify="center">
         <LayoutComponent>
           <ConfigProvider theme={antdTheme}>
             <Routes>
-              <Route path="/" element={<HomePage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="/home" element={<HomePage />} />
               <Route path="/my" element={<MyLinkPage />} />
@@ -51,6 +56,7 @@ function App() {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/favorite" element={<FavoritePage />} />
               <Route path="/registed" element={<RegistedPage />} />
+              <Route path="/recent-view" element={<RecentViewPage />} />
               <Route path="/test" element={<TestPage />} />
               <Route
                 path="/category/:categoryId"

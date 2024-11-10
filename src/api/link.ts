@@ -2,15 +2,24 @@
 
 import { axiosInstance } from 'lib/axios';
 import { LinkCategory } from 'types/Category';
-import { CreateLink, Link, SearchLink, UpdateLink } from 'types/Link';
+import { CreateLink, Link, ISearchLink, UpdateLink } from 'types/Link';
 
 export const getLinkByCategoryId = async (
-    categoryId: string
+  categoryId: string
 ): Promise<{ category: LinkCategory; links: Link[] }> => {
-    const { data } = await axiosInstance.get(`/links/category/${categoryId}`);
-    return data.data;
-
+  const { data } = await axiosInstance.get(`/links/category/${categoryId}`);
+  return data.data;
 };
+
+/** 최근본 링크들 검색 */
+export const searchLinkByIds = async (
+  linkIds: [number]
+): Promise<ISearchLink[]> => {
+  const { data } = await axiosInstance.post('/links/recent-view', { linkIds });
+  console.log('Ddddddddd', data.data.links);
+  return data.data.links;
+};
+
 export const createLink = async (linkData: CreateLink): Promise<Link> => {
   const { data } = await axiosInstance.post(`/links`, linkData);
 
@@ -47,7 +56,6 @@ export const changeLinkCategory = async (
     `/links/change-category/${categoryId}`,
     links
   );
-  console.log('dataatattttat', data);
   return data;
 };
 
