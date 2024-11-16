@@ -26,6 +26,7 @@ import { deleteLink } from 'api/link';
 import UpdateLinkModal from './modals/UpdateLinkModal';
 import { UpdateLink } from 'types/Link';
 import { onOffFavoriteLink } from 'api/favorite';
+import { useMessage } from 'hooks/useMessage';
 
 interface LinkProps {
   linkList: {
@@ -57,7 +58,7 @@ export const LinkComponent: React.FC<LinkProps> = ({
 }) => {
   const { isOpen, openModal, closeModal } = useModal();
   /** alert message */
-  const [messageApi, contextHolder] = message.useMessage();
+  const message = useMessage();
   /** alert 모달 타입 */
   const [alertType, setAlertType] = useState<string>('');
   /** 링크 옵션 노출 여부 (즐겨찾기, 수정, 삭제) */
@@ -140,7 +141,7 @@ export const LinkComponent: React.FC<LinkProps> = ({
   /** 링크 복사 option */
   const onClickCopyLink = (url: string) => {
     navigator.clipboard.writeText(url).then(() => {
-      messageApi.open({
+      message.open({
         type: 'success',
         content: '링크가 복사되었습니다.',
       });
@@ -164,13 +165,13 @@ export const LinkComponent: React.FC<LinkProps> = ({
     const result = await deleteLink(selectedLink[0]);
     if (result) {
       closeModal('alert');
-      messageApi.open({
+      message.open({
         type: 'success',
         content: '삭제되었습니다.',
       });
     } else {
       closeModal('alert');
-      messageApi.open({
+      message.open({
         type: 'error',
         content: '오류가 발생하였습니다.',
       });
@@ -192,7 +193,6 @@ export const LinkComponent: React.FC<LinkProps> = ({
 
   return (
     <>
-      {contextHolder}
       <div style={{ paddingBottom: 20, paddingTop: 30 }}>
         <Row justify={'space-around'}>
           {Array.isArray(linkList)

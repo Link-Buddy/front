@@ -21,6 +21,7 @@ import { AlertModal } from 'components/modals/AlertModal';
 import { getLinkByCategoryId } from 'api/link';
 
 import { Link } from 'types/Link';
+import { useMessage } from 'hooks/useMessage';
 
 const LinkDetailPage = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
@@ -35,7 +36,7 @@ const LinkDetailPage = () => {
     /** alert 모달 타입 */
     const [alertType, setAlertType] = useState<string>('');
     /** alert message */
-    const [messageApi, contextHolder] = message.useMessage();
+    const message = useMessage();
 
     const [links, setLinks] = useState<Link[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -90,7 +91,7 @@ const LinkDetailPage = () => {
     /** 링크 리스트 삭제  */
     const handleOk = () => {
         closeModal('alert');
-        messageApi.open({
+        message.open({
             type: 'success',
             content: '삭제되었습니다.',
         });
@@ -98,7 +99,6 @@ const LinkDetailPage = () => {
 
     return (
         <>
-            {contextHolder}
             <div style={{ height: '100%', padding: '0px 25px 50px 25px ' }}>
                 <Flex justify="flex-start">
                     <Typography.Title level={3}>
