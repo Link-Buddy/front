@@ -10,3 +10,6 @@ export const getAccessKey = (): string | null => {
 export const removeAccessKey = (): void => {
   localStorage.removeItem('accessKey');
 };
+export const saveRefreshKey = (refreshKey: string): void => {
+  localStorage.setItem('refreshKey', refreshKey);
+};

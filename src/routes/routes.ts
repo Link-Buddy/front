@@ -7,6 +7,7 @@ import MyLinkPage from 'pages/link';
 import AddLinkForm from 'pages/link/add';
 import LinkDetailPage from 'pages/link/detail';
 import LoginPage from 'pages/login';
+import SocialLoginRedirectPage from 'pages/login/SocialLoginRedirect';
 import HomePage from 'pages/main';
 import RecentViewPage from 'pages/recentview';
 import RegistedPage from 'pages/registed';
@@ -63,6 +64,10 @@ export const routes = [
   {
     path: '/login',
     element: LoginPage,
+  },
+  {
+    path: '/user/loginSuccess',
+    element: SocialLoginRedirectPage,
   },
   {
     path: '/search',
