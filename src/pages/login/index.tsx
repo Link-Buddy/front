@@ -1,4 +1,4 @@
-import { Button, Form, Input, Typography } from 'antd';
+import { Button, Divider, Form, Input, Typography } from 'antd';
 import { signIn } from 'api/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,9 @@ const LoginPage = () => {
 
     try {
       const data = await signIn(email, password);
+
       saveAccessKey(data.accessToken);
+
       navigate('/home');
     } catch (error) {
       console.log('error', error);
@@ -35,6 +37,11 @@ const LoginPage = () => {
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
+  };
+
+  const handleSocialLogin = (provider: string) => {
+    const socialLoginUrl = `http://localhost:8080/oauth2/authorization/${provider}`; // 소셜 로그인 URL 생성
+    window.location.href = socialLoginUrl;
   };
 
   return (
@@ -112,6 +119,47 @@ const LoginPage = () => {
           </Button>
         </Form.Item>
       </Form>
+
+      {/* 소셜 로그인 */}
+      <Divider>
+        <Typography.Text strong>간편로그인</Typography.Text>
+      </Divider>
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px',
+        }}
+      >
+        <Button
+          type="default"
+          onClick={() => handleSocialLogin('google')}
+          style={{
+            width: '100%',
+            maxWidth: '300px',
+            backgroundColor: '#4285F4',
+            color: 'white',
+            fontWeight: 'bold',
+          }}
+        >
+          Google로 로그인
+        </Button>
+        <Button
+          type="default"
+          onClick={() => handleSocialLogin('naver')}
+          style={{
+            width: '100%',
+            maxWidth: '300px',
+            backgroundColor: '#1ec800',
+            color: 'white',
+            fontWeight: 'bold',
+          }}
+        >
+          Naver로 로그인
+        </Button>
+      </div>
     </div>
   );
 };
