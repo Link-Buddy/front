@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Form, Input, message } from 'antd';
 import { Link, UpdateLink } from 'types/Link';
 import { updateLink } from 'api/link';
+import { useMessage } from 'hooks/useMessage';
 
 interface UpdateLinkModalProps {
     closeModal: (modalType: string) => void;
@@ -21,7 +22,8 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
     setRefresh,
 }) => {
     const [form] = Form.useForm();
-    const [messageApi, contextHolder] = message.useMessage();
+    /** alert message */
+    const message = useMessage();
     const onFinish = (values: Link) => {
         // handleSave(values);
         closeModal('editLink');
@@ -34,13 +36,15 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
 
         const result = await updateLink(linkData.id, formData);
         if (result.status === 'OK') {
-            messageApi.open({
+            message.open({
                 type: 'success',
                 content: '링크가 수정되었습니다.',
             });
-            closeModal('editLink');
+            setTimeout(() => {
+                closeModal('editLink');
+            }, 3000);
         } else {
-            messageApi.open({
+            message.open({
                 type: 'error',
                 content: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요.',
             });
@@ -54,7 +58,6 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
 
     return (
         <>
-            {contextHolder}
             <Modal
                 title="링크 수정"
                 open={isOpen}

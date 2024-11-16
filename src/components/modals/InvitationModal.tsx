@@ -3,6 +3,7 @@ import { useForm } from 'antd/es/form/Form';
 import Search from 'antd/es/input/Search';
 import { addBuddyUser, getBuddyList } from 'api/buddy';
 import { getUserList } from 'api/user';
+import { useMessage } from 'hooks/useMessage';
 import { useEffect, useState } from 'react';
 
 interface ModalProps {
@@ -15,7 +16,8 @@ export const InvitationModal: React.FC<ModalProps> = ({
     closeModal,
 }) => {
     const [form] = useForm();
-    const [messageApi, contextHolder] = message.useMessage();
+    /** alert message */
+    const message = useMessage();
     // 버디 리스트
     const [buddyList, setBuddyList] = useState<
         { label: string; value: number }[]
@@ -29,13 +31,15 @@ export const InvitationModal: React.FC<ModalProps> = ({
         const result = await addBuddyUser(formData);
         console.log('add buddy user result ??', result);
         if (result.status === 'OK') {
-            messageApi.open({
+            message.open({
                 type: 'success',
                 content: '초대 완료되었습니다.',
             });
-            closeModal('invitation');
+            setTimeout(() => {
+                closeModal('invitation');
+            }, 3000);
         } else {
-            messageApi.open({
+            message.open({
                 type: 'error',
                 content: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요.',
             });
@@ -92,7 +96,6 @@ export const InvitationModal: React.FC<ModalProps> = ({
 
     return (
         <>
-            {contextHolder}
             <Modal
                 title="친구 초대"
                 open={isOpen}

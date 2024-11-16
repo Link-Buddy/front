@@ -1,25 +1,26 @@
 import { Button, Form, Input, message } from 'antd';
 import { addBuddy } from 'api/buddy';
+import { useMessage } from 'hooks/useMessage';
 
 const AddBuddyPage = () => {
-    const [messageApi, contextHolder] = message.useMessage();
+    const message = useMessage();
 
     const onFinish = async (values: any) => {
         console.log('Success:', values);
         const result = await addBuddy(values);
         console.log('result', result);
         if (result.status === 'OK') {
-            messageApi.open({
+            message.open({
                 type: 'success',
                 content: '버디 추가가 완료되었습니다.',
             });
         } else if (result.status === 'CONFLICT') {
-            messageApi.open({
+            message.open({
                 type: 'error',
                 content: '동일한 이름의 버디가 존재합니다.',
             });
         } else {
-            messageApi.open({
+            message.open({
                 type: 'error',
                 content: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요.',
             });
@@ -31,7 +32,6 @@ const AddBuddyPage = () => {
 
     return (
         <>
-            {contextHolder}
             <div className="flex flex-col gap-8">
                 <h2 className="font-semibold text-xl">버디 추가</h2>
                 <Form

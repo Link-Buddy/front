@@ -4,6 +4,7 @@ import './style/index.css';
 import LayoutComponent from 'components/template/Layout';
 import { useEffect } from 'react';
 import AppRoutes from 'routes';
+import MessageProvider from 'components/MessageProvider';
 
 function App() {
     /** 전역 테마 설정 */
@@ -14,16 +15,18 @@ function App() {
         },
     };
 
-  useEffect(() => {
-    localStorage.setItem('recentLinks', JSON.stringify([]));
-  }, []);
+    useEffect(() => {
+        localStorage.setItem('recentLinks', JSON.stringify([]));
+    }, []);
 
     return (
         <div className="App">
             <Flex justify="center">
                 <LayoutComponent>
                     <ConfigProvider theme={antdTheme}>
-                        <AppRoutes />
+                        <MessageProvider>
+                            <AppRoutes />
+                        </MessageProvider>
                     </ConfigProvider>
                 </LayoutComponent>
             </Flex>
