@@ -213,17 +213,15 @@ export const LinkComponent: React.FC<LinkProps> = ({
                           padding: 10,
                         },
                       }}
-                      onClick={() => onClickLink(link.linkUrl, link.id)}
                       cover={
-                        <>
-                          <img
-                            alt={link.name}
-                            src={link.imageUrl}
-                            style={{
-                              height: 120,
-                            }}
-                          />
-                        </>
+                        <img
+                          alt={link.name}
+                          src={link.imageUrl}
+                          style={{
+                            height: 120,
+                          }}
+                          onClick={() => onClickLink(link.linkUrl, link.id)}
+                        />
                       }
                       actions={[
                         <CopyOutlined
@@ -256,18 +254,20 @@ export const LinkComponent: React.FC<LinkProps> = ({
                           onChange={() => onChangeCheckbox(link.id)}
                         />
                       )}
-                      {/* <Row>
-                                              <Typography.Text
-                                                  style={{ color: 'gray' }}
-                                              >
-                                                  {link.urlTitle}
-                                              </Typography.Text>
-                                          </Row> */}
+
                       <Row>
-                        <Typography.Text strong>{link.name}</Typography.Text>
+                        <Typography.Text
+                          strong
+                          onClick={() => onClickLink(link.linkUrl, link.id)}
+                        >
+                          {link.name}
+                        </Typography.Text>
                       </Row>
                       <Row>
-                        <Typography.Text style={{ color: 'gray' }}>
+                        <Typography.Text
+                          style={{ color: 'gray' }}
+                          onClick={() => onClickLink(link.linkUrl, link.id)}
+                        >
                           - {link.description}
                         </Typography.Text>
                       </Row>
