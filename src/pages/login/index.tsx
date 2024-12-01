@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Input, Typography } from 'antd';
+import { Button, Col, Divider, Flex, Form, Input, Row, Typography } from 'antd';
 import { signIn } from 'api/auth';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -45,21 +45,34 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ height: '100%', padding: '0px 25px 50px 25px ' }}>
-      <Typography.Title level={5} style={{ paddingBottom: 8 }}>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        padding: '0px 25px 50px 25px',
+        display: 'flex',
+        // alignItems: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <Typography.Title
+        level={4}
+        style={{ paddingBottom: 8, textAlign: 'center' }}
+      >
         로그인
       </Typography.Title>
       <Form
         name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        style={{
-          maxWidth: 600,
-        }}
+        layout="vertical"
+        // labelCol={{
+        //   span: 8,
+        // }}
+        // wrapperCol={{
+        //   span: 16,
+        // }}
+        // style={{
+        //   maxWidth: 600,
+        // }}
         initialValues={{
           remember: true,
         }}
@@ -68,6 +81,7 @@ const LoginPage = () => {
         autoComplete="off"
       >
         <Form.Item
+          style={{ width: '100%' }}
           label="email"
           name="email"
           validateStatus={loginError ? 'error' : ''} // 에러 상태일 때 에러 스타일 적용
@@ -101,64 +115,56 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
+        <Form.Item style={{}}>
           <Button
+            block
+            size="large"
             type="primary"
             htmlType="submit"
             loading={loading}
             className="mt-5"
             onClick={handleSignIn}
           >
-            Submit
+            로그인
           </Button>
         </Form.Item>
+        <Typography.Text>
+          <a onClick={() => navigate('/user/join')}>회원가입</a>
+        </Typography.Text>
       </Form>
-
-      {/* 소셜 로그인 */}
-      <Divider>
-        <Typography.Text strong>간편로그인</Typography.Text>
-      </Divider>
-
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px',
-        }}
-      >
-        <Button
-          type="default"
-          onClick={() => handleSocialLogin('google')}
-          style={{
-            width: '100%',
-            maxWidth: '300px',
-            backgroundColor: '#4285F4',
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-        >
-          Google로 로그인
-        </Button>
-        <Button
-          type="default"
-          onClick={() => handleSocialLogin('naver')}
-          style={{
-            width: '100%',
-            maxWidth: '300px',
-            backgroundColor: '#1ec800',
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-        >
-          Naver로 로그인
-        </Button>
+      <div style={{ paddingTop: 40 }}>
+        {/* 소셜 로그인 */}
+        <Divider>
+          <Typography.Text strong>간편로그인</Typography.Text>
+        </Divider>
+        <Flex justify="center">
+          <Row>
+            <Col>
+              <Button
+                type="default"
+                onClick={() => handleSocialLogin('google')}
+                style={{
+                  width: '100%',
+                  maxWidth: '200px',
+                  backgroundColor: '#4285F4',
+                  color: 'white',
+                  fontWeight: 'bold',
+                }}
+              >
+                Google로 로그인
+              </Button>
+            </Col>
+            <Col style={{ paddingLeft: 8 }}>
+              <div>
+                <img
+                  src="/images/naver_login_btnG.png"
+                  onClick={() => handleSocialLogin('naver')}
+                  style={{ cursor: 'pointer', height: 50 }}
+                />
+              </div>
+            </Col>
+          </Row>
+        </Flex>
       </div>
     </div>
   );

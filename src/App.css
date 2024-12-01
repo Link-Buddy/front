@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+/* antd form validation check message style */
+.ant-form-item-explain {
+  padding-top: 7px; /* 원하는 패딩 값 */
+  margin-top: 0; /* 기본 마진 제거 */
+}

@@ -15,6 +15,7 @@ import SearchPage from 'pages/search';
 import TestPage from 'pages/test';
 import UserPage from 'pages/user';
 import UserEditPage from 'pages/user/edit';
+import UserJoinPage from 'pages/user/join';
 
 export const routes = [
   {
@@ -52,6 +53,10 @@ export const routes = [
   {
     path: '/user/edit/my',
     element: UserEditPage,
+  },
+  {
+    path: '/user/join',
+    element: UserJoinPage,
   },
   {
     path: '/add-link',
