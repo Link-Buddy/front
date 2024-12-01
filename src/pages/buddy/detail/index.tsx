@@ -96,7 +96,7 @@ const BuddyPage: React.FC = () => {
             <UserProfile
               userId={buddyUser.id}
               username={buddyUser.name}
-              imgSrc="https://via.placeholder.com/64"
+              imageUrl={buddyUser.imageUrl}
             />
           ))}
         </div>

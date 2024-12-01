@@ -16,6 +16,7 @@ const UserPage: React.FC<{}> = () => {
   const [userInfo, setUserInfo] = useState<{
     name: string;
     email: string;
+    imageUrl: string;
     linkCount: number;
     favoriteCount: number;
   } | null>(null);
@@ -64,7 +65,17 @@ const UserPage: React.FC<{}> = () => {
   return (
     <div className="flex flex-col mr-8 ml-8 items-center p-4 bg-white rounded-lg  mx-auto">
       <div className="flex items-center w-full mb-14">
-        <Avatar size={50} icon={<UserOutlined />} className="mr-4" />
+        <Avatar
+          size={50}
+          icon={
+            userInfo?.imageUrl ? (
+              <img src={userInfo.imageUrl} alt="profile" />
+            ) : (
+              <UserOutlined />
+            )
+          }
+          className="mr-4"
+        />
         <div className="flex justify-between w-full items-center">
           <div className="flex flex-col">
             {userInfo && (

@@ -1,22 +1,23 @@
 type BuddyUser = {
-    id: number;
-    name: string;
-    email: string;
-}
+  id: number;
+  name: string;
+  email: string;
+  imageUrl: string;
+};
 
 type Buddy = {
-    id: number;
-    name: string;
-    buddyId: string;
-    alertTf: boolean;
-    pinTf: boolean
-}
+  id: number;
+  name: string;
+  buddyId: string;
+  alertTf: boolean;
+  pinTf: boolean;
+};
 
 type BuddyInvitation = {
-    id: number;
-    name: string;
-    buddyId: number;
-    acceptTf: boolean;
-    acceptDt: Date;
-    createdAt: Date;
-}
+  id: number;
+  name: string;
+  buddyId: number;
+  acceptTf: boolean;
+  acceptDt: Date;
+  createdAt: Date;
+};

@@ -4,7 +4,7 @@ export interface UserInfo {
   name: string;
   social: string;
   statusCd: number;
-  fileId: string;
+  imageUrl: string;
   refreshToken: string;
   linkCount: number;
   favoriteCount: number;
