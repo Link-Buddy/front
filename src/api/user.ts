@@ -32,3 +32,14 @@ export const changeMyPassword = async (
   });
   return data.data;
 };
+
+/** 회원가입 */
+export const saveUser = async (userData: {
+  name: string;
+  email: string;
+  password: string;
+}): Promise<{ status: string; data: any }> => {
+  console.log('userData', userData);
+  const { data } = await axiosInstance.post('/user/join', userData);
+  return data;
+};

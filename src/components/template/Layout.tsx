@@ -1,37 +1,62 @@
 import { LeftOutlined } from '@ant-design/icons';
-import { Layout, Typography } from 'antd';
+import { Layout } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import NavBar from 'components/NavBar';
-import { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const LayoutComponent = ({ children }: any) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { buddyId } = useParams();
-  const [showBackBtn, setShowBackBtn] = useState<boolean>(true);
+  const [showBackBtn, setShowBackBtn] = useState<boolean>(false);
+  const showBackBtnPath = ['/category', '/buddy'];
+  const hideBackBtnPath = ['/buddy/list'];
 
   const handleBackButton = () => {
-    console.log('location', location);
-    console.log('useParams', buddyId);
-    navigate(-1)
-  }
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    // 뒤로가기 버튼 노출 페이지인지 확인
+    const checkShowBackBtnPath =
+      showBackBtnPath.some((path) => location.pathname.startsWith(path)) &&
+      !hideBackBtnPath.some((path) => location.pathname.startsWith(path));
+    console.log('checkShowBackBtnPath ', checkShowBackBtnPath);
+
+    if (checkShowBackBtnPath) {
+      setShowBackBtn(true);
+    } else {
+      setShowBackBtn(false);
+    }
+  }, [location.pathname]);
 
   return (
-    <Layout className="relative max-w-screen-md h-screen mx-auto">
-      <Header className="bg-white">
-        {showBackBtn && (
-          <LeftOutlined style={{ fontSize: 22 }} onClick={() => handleBackButton()}/>
-        )}
-      </Header>
+    <Layout className="relative max-w-screen-md">
       <Content
         style={{
           backgroundColor: 'white',
-          padding: '10px 0px 50px 0px',
-          maxHeight: 'calc(100vh - 144px)',
+          padding: '40px 0px 80px 0px',
+          // maxHeight: 'calc(100vh - 144px)',
+          // maxHeight: 'auto',
+          height: '100%',
           overflowY: 'auto',
         }}
       >
+        {showBackBtn && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              paddingLeft: '25px',
+            }}
+          >
+            <LeftOutlined
+              style={{ fontSize: 22 }}
+              onClick={() => handleBackButton()}
+            />
+          </div>
+        )}
         {children}
       </Content>
       <NavBar />
