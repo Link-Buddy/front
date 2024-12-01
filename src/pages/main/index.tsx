@@ -4,15 +4,18 @@ import AddLinkComponent from '../../components/AddLink';
 import { useNavigate } from 'react-router-dom';
 import MyTopProfile from 'components/MyTopPrifile';
 import { PiEnvelopeLight } from 'react-icons/pi';
-import { Badge } from 'antd';
+import { Avatar, Badge } from 'antd';
 import { getBuddyInvitation } from 'api/buddy';
 import { getAccessKey } from 'utils/authStorage';
 import { getMyInfo } from 'api/user';
+import { UserOutlined } from '@ant-design/icons';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [invitationCount, setInvitationCount] = useState<number>(0);
   const [userId, setUserId] = useState<number | null>(null); // 사용자 ID를 저장할 상태
+  const [name, setName] = useState<string | null>(null);
+  const [imgUrl, setImgUrl] = useState<string | null>(null);
 
   const accessToken = getAccessKey(); // localStorage에서 accessToken 가져오기
 
@@ -22,6 +25,8 @@ const HomePage: React.FC = () => {
       if (accessToken) {
         const user = await getMyInfo(); // API 호출
         setUserId(user.id); // 사용자 정보 상태에 저장
+        setName(user.name);
+        setImgUrl(user.imageUrl);
       } else {
         navigate('/login');
       }
@@ -70,7 +75,15 @@ const HomePage: React.FC = () => {
           />
         </Badge>
         <div onClick={handleDetailClick} className="cursor-pointer">
-          <MyTopProfile userId={1} imgSrc="/images/bopul_1.jpg" />
+          {imgUrl ? (
+            <MyTopProfile imageUrl={imgUrl} />
+          ) : (
+            <Avatar
+              size={40}
+              src={undefined} // imgUrl이 없으면 undefined로 설정
+              icon={<UserOutlined />} // imgUrl이 없을 경우 기본 아이콘 표시
+            />
+          )}
         </div>
       </div>
 
