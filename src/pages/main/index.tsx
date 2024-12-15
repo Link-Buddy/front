@@ -2,15 +2,10 @@ import React, { useEffect, useState } from 'react';
 import FavoritesComponent from '../../components/Favorites';
 import AddLinkComponent from '../../components/AddLink';
 import { useNavigate } from 'react-router-dom';
-import MyTopProfile from 'components/MyTopPrifile';
-import { PiEnvelopeLight } from 'react-icons/pi';
-import { Avatar, Badge } from 'antd';
+
 import { getBuddyInvitation } from 'api/buddy';
 import { getAccessKey } from 'utils/authStorage';
 import { getMyInfo } from 'api/user';
-import { UserOutlined } from '@ant-design/icons';
-import { generateRandomColor } from 'utils/randomColor';
-
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [invitationCount, setInvitationCount] = useState<number>(0);
