@@ -21,6 +21,10 @@ const UserPage: React.FC<{}> = () => {
     favoriteCount: number;
   } | null>(null);
 
+  const [userImage, setUserImage] = useState<string>(
+    '/images/basicProfile.png'
+  ); // 기본 이미지 설정
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       const data = await getMyInfo();
@@ -28,6 +32,12 @@ const UserPage: React.FC<{}> = () => {
     };
     fetchUserInfo();
   }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      setUserImage(userInfo.imageUrl || '/images/basicProfile.png'); // imageUrl이 있을 경우 해당 이미지를 사용, 없으면 기본 이미지
+    }
+  }, [userInfo]);
 
   const [recentViewCount, setRecentViewCount] = useState(0);
 
@@ -67,13 +77,8 @@ const UserPage: React.FC<{}> = () => {
       <div className="flex items-center w-full mb-14">
         <Avatar
           size={50}
-          icon={
-            userInfo?.imageUrl ? (
-              <img src={userInfo.imageUrl} alt="profile" />
-            ) : (
-              <UserOutlined />
-            )
-          }
+          src={userImage} // 이미지 URL을 직접 사용
+          alt="profile"
           className="mr-4"
         />
         <div className="flex justify-between w-full items-center">

@@ -35,4 +35,5 @@ export interface ISearchLink {
   linkDescription: string;
   linkName: string;
   linkUrl: string;
+  imageUrl: string;
 }
