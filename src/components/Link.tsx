@@ -184,8 +184,6 @@ export const LinkComponent: React.FC<LinkProps> = ({
     setSelectedLink([key]);
     setLinkData(linkList.filter((link) => link.id === key)[0]);
   };
-  /** 링크 옵션 클릭시 */
-  const handleEditPopoverVisible = () => {};
 
   useEffect(() => {
     setSelectLinkCount(selectedLink.length);
@@ -204,7 +202,7 @@ export const LinkComponent: React.FC<LinkProps> = ({
                       hoverable
                       size="small"
                       style={{
-                        width: 160,
+                        width: 180,
                         // height: 100
                       }}
                       styles={{
@@ -216,9 +214,13 @@ export const LinkComponent: React.FC<LinkProps> = ({
                       cover={
                         <img
                           alt={link.name}
-                          src={link.imageUrl}
+                          src={
+                            link.imageUrl
+                              ? link.imageUrl
+                              : '/images/noPreview.png'
+                          }
                           style={{
-                            height: 120,
+                            height: 180,
                           }}
                           onClick={() => onClickLink(link.linkUrl, link.id)}
                         />

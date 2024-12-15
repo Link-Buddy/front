@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import FolderComponent from '../../../components/Folder';
 import FloatAddLinkBtn from '../../../components/FloatAddLinkBtn';
 import UserProfile from 'components/UserProfile';
-import '../../../style/css/buddy.css';
+import '../../../styles/css/buddy.css';
 
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { SearchComponent } from 'components/Search';
@@ -56,6 +56,7 @@ const BuddyPage: React.FC = () => {
     console.log('buddyId', buddyId);
     const result = await getBuddyUserList(Number(buddyId));
     console.log('get buddyUser list result ??', result);
+
     setBuddyUserList(result);
   };
 
@@ -96,7 +97,7 @@ const BuddyPage: React.FC = () => {
             <UserProfile
               userId={buddyUser.id}
               username={buddyUser.name}
-              imageUrl={buddyUser.imageUrl}
+              imageUrl={buddyUser.imageUrl || '/images/basicProfile.png'}
             />
           ))}
         </div>
@@ -112,7 +113,7 @@ const BuddyPage: React.FC = () => {
       </div>
       <Row justify={'end'}>
         <Typography.Text>
-          <a onClick={handleNavigate}>추가</a>
+          <a onClick={handleNavigate}>+ 새 폴더</a>
         </Typography.Text>
       </Row>
       <Divider style={{ margin: '10px 0px' }} />
