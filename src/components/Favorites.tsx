@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위해 useNavigate 훅 사용
-import { FaChevronRight } from 'react-icons/fa'; // react-icons에서 아이콘 임포트
+import { useNavigate } from 'react-router-dom';
+import { Card, Badge } from 'antd'; // Card와 Badge 컴포넌트를 임포트
 import { myFavoriteLinks } from 'api/link';
 import { ISearchLink } from 'types/Link';
 
+const { Meta } = Card;
+
 const Favorites: React.FC = () => {
-  const navigate = useNavigate(); // useNavigate 훅 사용
-  const [favoriteLinks, setFavoriteLinks] = useState<ISearchLink[]>([]); // 즐겨찾기 링크 데이터를 위한 상태
+  const navigate = useNavigate();
+  const [favoriteLinks, setFavoriteLinks] = useState<ISearchLink[]>([]);
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 API 호출
     const fetchFavorites = async () => {
       try {
         const links = await myFavoriteLinks();
@@ -21,6 +22,7 @@ const Favorites: React.FC = () => {
 
     fetchFavorites();
   }, []);
+
   const handleNavigate = () => {
     navigate('/favorite'); // 클릭 시 이동할 페이지 경로
   };
@@ -29,6 +31,7 @@ const Favorites: React.FC = () => {
   const handleLinkClick = (url: string) => {
     window.open(url, '_blank');
   };
+
   return (
     <div className="px-4 py-2">
       <div className="text-lg font-semibold mb-2 flex items-center transition-colors">
@@ -36,25 +39,35 @@ const Favorites: React.FC = () => {
       </div>
       <div className="flex justify-between space-x-2">
         {favoriteLinks.slice(0, 4).map((link) => (
-          <div
+          <Card
             key={link.id}
-            className="w-44 h-44 border-2 border-gray-300 rounded-lg flex flex-col cursor-pointer transition-all transform hover:scale-105 hover:shadow-xl hover:border-opacity-80"
-            onClick={() => handleLinkClick(link.linkUrl)}
+            hoverable
+            style={{ width: 170 }} // Card의 너비 설정
+            cover={
+              <img
+                alt={link.linkName}
+                src={link.imageUrl ? link.imageUrl : '/images/noPreview.png'}
+                style={{
+                  height: 150,
+                }}
+                onClick={() => handleLinkClick(link.linkUrl)}
+              />
+            }
+            onClick={() => handleLinkClick(link.linkUrl)} // 클릭 시 링크로 이동
+            className="transition-all transform hover:scale-105 hover:shadow-xl"
+            bodyStyle={{ padding: '15px' }}
           >
-            <div
-              className={`h-2 w-full rounded-t-lg ${
-                link.shareTypeCd === 10
-                  ? 'bg-orange-500'
-                  : link.shareTypeCd === 20
-                  ? 'bg-green-500'
-                  : ''
-              }`}
-            ></div>
-
-            <div className="flex flex-grow items-center justify-center text-center text-sm font-semibold text-gray-800">
-              {link.linkName}
-            </div>
-          </div>
+            <Meta title={link.linkName} />
+            {link.shareTypeCd === 10 && (
+              <Badge
+                count="Private"
+                style={{ marginTop: 10, backgroundColor: '#ffa500' }}
+              />
+            )}
+            {link.shareTypeCd === 20 && (
+              <Badge count="Buddy" style={{ backgroundColor: '#28a745' }} />
+            )}
+          </Card>
         ))}
       </div>
       {favoriteLinks.length > 4 && (

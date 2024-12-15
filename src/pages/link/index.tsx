@@ -51,7 +51,7 @@ const MyLinkPage: React.FC = () => {
       </div>
       <Row justify={'end'}>
         <Typography.Text>
-          <a onClick={handleNavigate}>추가</a>
+          <a onClick={handleNavigate}>+ 새 폴더</a>
         </Typography.Text>
       </Row>
       <Divider style={{ margin: '10px 0px' }} />
@@ -86,7 +86,7 @@ const MyLinkPage: React.FC = () => {
                 { id: newCategory.id, categoryName, linkCount: 0 },
               ]); // 새 카테고리 추가
             } catch (error) {
-              console.error('카테고리 추가 실패:', error); // 에러 처리
+              console.error('새폴더 추가 실패:', error); // 에러 처리
             }
           }}
         />

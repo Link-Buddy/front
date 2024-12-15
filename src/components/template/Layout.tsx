@@ -2,6 +2,7 @@ import { LeftOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import NavBar from 'components/NavBar';
+import TopBar from 'components/topBar';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -20,6 +21,8 @@ const LayoutComponent = ({ children }: any) => {
     navigate(-1);
   };
 
+  const showTopBar = !location.pathname.startsWith('/user');
+
   useEffect(() => {
     // NavBar 노출 페이지인지 확인
     const checkHideNavBarPath = hideNavBarPath.some((path) =>
@@ -34,7 +37,6 @@ const LayoutComponent = ({ children }: any) => {
     const checkShowBackBtnPath =
       showBackBtnPath.some((path) => location.pathname.startsWith(path)) &&
       !hideBackBtnPath.some((path) => location.pathname.startsWith(path));
-    console.log('checkShowBackBtnPath ', checkShowBackBtnPath);
 
     if (checkShowBackBtnPath) {
       setShowBackBtn(true);
@@ -44,11 +46,12 @@ const LayoutComponent = ({ children }: any) => {
   }, [location.pathname]);
 
   return (
-    <Layout className="relative max-w-screen-md h-dvh">
+    <Layout className="relative max-w-screen-md">
+      {showTopBar && <TopBar />}
       <Content
         style={{
           backgroundColor: 'white',
-          padding: '40px 0px 40px 0px',
+          padding: '80px 0px 80px 0px',
           // maxHeight: 'calc(100vh - 144px)',
           // maxHeight: 'auto',
           // height: '100%',

@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react';
 import FavoritesComponent from '../../components/Favorites';
 import AddLinkComponent from '../../components/AddLink';
 import { useNavigate } from 'react-router-dom';
-import MyTopProfile from 'components/MyTopPrifile';
-import { PiEnvelopeLight } from 'react-icons/pi';
-import { Avatar, Badge } from 'antd';
+
 import { getBuddyInvitation } from 'api/buddy';
 import { getAccessKey } from 'utils/authStorage';
 import { getMyInfo } from 'api/user';
-import { UserOutlined } from '@ant-design/icons';
-
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [invitationCount, setInvitationCount] = useState<number>(0);
   const [userId, setUserId] = useState<number | null>(null); // 사용자 ID를 저장할 상태
   const [name, setName] = useState<string | null>(null);
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
-
+  const [userImage, setUserImage] = useState<string>(
+    '/images/basicProfile.png'
+  );
   const accessToken = getAccessKey(); // localStorage에서 accessToken 가져오기
 
   /** 사용자 정보 호출 */
@@ -26,7 +23,9 @@ const HomePage: React.FC = () => {
         const user = await getMyInfo(); // API 호출
         setUserId(user.id); // 사용자 정보 상태에 저장
         setName(user.name);
-        setImgUrl(user.imageUrl);
+        if (user.imageUrl) {
+          setUserImage(user.imageUrl);
+        }
       } else {
         navigate('/login');
       }
@@ -67,26 +66,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="max-w-screen-md mx-auto p-4">
-      <div className="flex flex-row justify-end gap-4">
-        <Badge count={invitationCount} className="mt-1">
-          <PiEnvelopeLight
-            className="text-4xl text-neutral-600 cursor-pointer"
-            onClick={onClickEnvelope}
-          />
-        </Badge>
-        <div onClick={handleDetailClick} className="cursor-pointer">
-          {imgUrl ? (
-            <MyTopProfile imageUrl={imgUrl} />
-          ) : (
-            <Avatar
-              size={40}
-              src={undefined} // imgUrl이 없으면 undefined로 설정
-              icon={<UserOutlined />} // imgUrl이 없을 경우 기본 아이콘 표시
-            />
-          )}
-        </div>
-      </div>
-
       <FavoritesComponent />
       <AddLinkComponent />
     </div>

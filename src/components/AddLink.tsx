@@ -15,7 +15,7 @@ const AddLink: React.FC = () => {
       <Button
         type="default"
         icon={<PlusOutlined />}
-        style={{ width: '100%' }}
+        style={{ width: '100%', backgroundColor: '#457c9d', color: 'white' }}
         className="p-6"
         onClick={handleNavigate} // 클릭 시 페이지 이동 함수 호출
       >
