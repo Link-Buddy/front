@@ -3,7 +3,11 @@ import SearchLink from '../../components/SearchLink';
 
 const RegistedPage = () => {
   return (
-    <SearchLink fetchLinks={() => myRegistedLinks()} title="내가 등록한 링크" />
+    <SearchLink
+      fetchLinks={() => myRegistedLinks()}
+      title="내가 등록한 링크"
+      type="registed"
+    />
   );
 };
 

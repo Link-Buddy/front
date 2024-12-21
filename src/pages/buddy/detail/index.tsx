@@ -94,11 +94,13 @@ const BuddyPage: React.FC = () => {
           className="flex space-x-8 mr-10 ml-10 overflow-x-auto no-scrollbar"
         >
           {buddyUserList.map((buddyUser, index) => (
-            <UserProfile
-              userId={buddyUser.id}
-              username={buddyUser.name}
-              imageUrl={buddyUser.imageUrl || '/images/basicProfile.png'}
-            />
+            <div key={buddyUser.id}>
+              <UserProfile
+                userId={buddyUser.id}
+                username={buddyUser.name}
+                imageUrl={buddyUser.imageUrl || '/images/basicProfile.png'}
+              />
+            </div>
           ))}
         </div>
         <button
