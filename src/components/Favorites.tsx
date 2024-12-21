@@ -41,7 +41,7 @@ const Favorites: React.FC = () => {
         <div className="flex justify-between space-x-2">
           {favoriteLinks.slice(0, 4).map((link) => (
             <Card
-              key={link.id}
+              key={link.linkId}
               hoverable
               style={{ width: 170 }} // Card의 너비 설정
               cover={

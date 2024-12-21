@@ -21,7 +21,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
 
   return (
     <Modal
-      title="새 카테고리 추가"
+      title="새 폴더 추가"
       open={true} // Ensure the modal is visible
       onOk={handleAddClick}
       onCancel={onClose}
@@ -29,7 +29,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
       cancelText="닫기"
     >
       <Input
-        placeholder="카테고리 이름 입력"
+        placeholder="폴더 이름 입력"
         value={categoryName}
         onChange={(e) => setCategoryName(e.target.value)}
       />

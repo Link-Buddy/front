@@ -5,7 +5,6 @@ import {
   Divider,
   Empty,
   Flex,
-  message,
   Row,
   Skeleton,
   Space,
@@ -180,7 +179,7 @@ const LinkDetailPage = () => {
           style={{
             borderTopLeftRadius: 15,
             borderTopRightRadius: 15,
-            backgroundColor: '#cccccc',
+            backgroundColor: '#457c9d',
             borderTop: '1px solid #d9d9d9',
             padding: '12px 20px',
             zIndex: 999,
@@ -194,7 +193,7 @@ const LinkDetailPage = () => {
         >
           <Col>
             <Row justify={'start'} style={{ paddingLeft: 20 }}>
-              <Typography.Text style={{ color: '#132639' }} strong>
+              <Typography.Text style={{ color: '#ffffff' }} strong>
                 {selectLinkCount} 개 선택
               </Typography.Text>
             </Row>
@@ -202,6 +201,7 @@ const LinkDetailPage = () => {
           <Col>
             <Space size={'small'}>
               <a
+                style={{ color: 'white' }}
                 onClick={() => {
                   if (selectLinkCount === 0) {
                     return false;
@@ -210,14 +210,17 @@ const LinkDetailPage = () => {
                   }
                 }}
               >
-                <FolderOpenOutlined style={{ paddingRight: 5 }} />
+                <FolderOpenOutlined
+                  style={{ paddingRight: 5, color: '#ffffff' }}
+                />
                 링크 이동
               </a>
               <Divider
                 type="vertical"
-                style={{ borderLeft: '1px solid #666666' }}
+                style={{ borderLeft: '1px solid #ffffff' }}
               />
               <a
+                style={{ color: 'white' }}
                 onClick={() => {
                   if (selectLinkCount === 0) {
                     return false;
@@ -227,7 +230,7 @@ const LinkDetailPage = () => {
                   }
                 }}
               >
-                <CloseOutlined style={{ paddingRight: 5 }} />
+                <CloseOutlined style={{ paddingRight: 5, color: '#ffffff' }} />
                 삭제
               </a>
             </Space>

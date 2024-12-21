@@ -3,7 +3,11 @@ import SearchLink from '../../components/SearchLink';
 
 const SearchPage = () => {
   return (
-    <SearchLink fetchLinks={(value) => searchLink(value || '')} title="검색" />
+    <SearchLink
+      fetchLinks={(value) => searchLink(value || '')}
+      title="검색"
+      type="search"
+    />
   );
 };
 

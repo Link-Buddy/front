@@ -202,7 +202,7 @@ export const LinkComponent: React.FC<LinkProps> = ({
                       hoverable
                       size="small"
                       style={{
-                        width: 180,
+                        width: 160,
                         // height: 100
                       }}
                       styles={{

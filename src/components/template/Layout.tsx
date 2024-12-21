@@ -11,7 +11,7 @@ const LayoutComponent = ({ children }: any) => {
   const location = useLocation();
   // 뒤로가기 버튼
   const [showBackBtn, setShowBackBtn] = useState<boolean>(false);
-  const showBackBtnPath = ['/category', '/buddy', '/user/join'];
+  const showBackBtnPath = ['/category', '/buddy', '/user/join', '/add-buddy'];
   const hideBackBtnPath = ['/buddy/list'];
   // NavBar
   const [showNavBarPath, setShowNavBarPath] = useState<boolean>(true);
@@ -46,12 +46,12 @@ const LayoutComponent = ({ children }: any) => {
   }, [location.pathname]);
 
   return (
-    <Layout className="relative max-w-screen-md">
+    <Layout className="relative max-w-screen-md h-dvh">
       {showTopBar && <TopBar />}
       <Content
         style={{
           backgroundColor: 'white',
-          padding: '80px 0px 80px 0px',
+          padding: showTopBar ? '80px 0px 80px 0px' : '40px 0px 40px 0px',
           // maxHeight: 'calc(100vh - 144px)',
           // maxHeight: 'auto',
           // height: '100%',
