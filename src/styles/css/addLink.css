@@ -1,0 +1,38 @@
+.animated-gradient-button {
+  width: 100%;
+  color: white;
+  background: linear-gradient(
+    90deg,
+    #ff7eb3,
+    #ff758c,
+    #ff9a8b,
+    #ff6a95,
+    #7d4cdb,
+    #0078d4,
+    #3b82f6
+  );
+  background-size: 500% 500%;
+  animation: gradientAnimation 8s infinite;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.animated-gradient-button:hover {
+  transform: scale(1.05);
+  border: 2px solid #ffffff; /* 흰색 테두리 추가 */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* 흰색 발광 효과 */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

@@ -4,6 +4,14 @@ import { axiosInstance } from 'lib/axios';
 import { LinkCategory } from 'types/Category';
 import { CreateLink, Link, ISearchLink, UpdateLink } from 'types/Link';
 
+/** 링크 일주일간 기록 조회 */
+export const getWeeklyLinkStatus = async (): Promise<
+  Record<string, boolean>
+> => {
+  const { data } = await axiosInstance.get('/links/weekly');
+  return data.data;
+};
+
 /** 링크 목록 조회 */
 export const getLinkByCategoryId = async (
   categoryId: string
@@ -17,7 +25,6 @@ export const searchLinkByIds = async (
   linkIds: [number]
 ): Promise<ISearchLink[]> => {
   const { data } = await axiosInstance.post('/links/recent-view', { linkIds });
-  console.log('Ddddddddd', data.data.links);
   return data.data.links;
 };
 

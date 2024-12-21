@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+
+.weekly-table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  user-select: none;
+}
+
+.weekly-table .ant-table {
+  font-family: 'Dancing Script', cursive;
+}
+
+.weekly-table .ant-table-thead > tr > th {
+  background-color: #f9f9f9;
+  color: #666;
+  font-family: 'Dancing Script', cursive;
+  text-align: center;
+  font-size: 22px;
+  border: 1px solid #ddd;
+  height: 50px;
+  width: 100px;
+  padding: 12px;
+}
+
+.weekly-table .ant-table-tbody > tr > td {
+  text-align: center;
+  border: 1px solid #ddd;
+  height: 100px;
+  vertical-align: middle;
+  width: 100px;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.stamp {
+  display: table-cell;
+  width: 100px; /* 이미지 크기 조정 */
+  height: 100px; /* 이미지 크기 조정 */
+  background-size: cover;
+  position: relative;
+}
+
+.stamp-good {
+  background-image: url('/public/images/good.png'); /* 성공 아이콘 */
+}
+
+.stamp-retry {
+  background-image: url('/public/images/retry.png'); /* 실패 아이콘 */
+}
