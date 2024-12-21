@@ -11,12 +11,17 @@ const { Option } = Select;
 
 const AddLinkForm = () => {
   const [radioValue, setRadioValue] = useState('private');
-  const [categories, setCategories] = useState<Category[]>([]); // 카테고리 상태 추가
-  const [buddyList, setBuddyList] = useState<Buddy[]>([]); // 버디 카테고리 상태 추가
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [buddyList, setBuddyList] = useState<Buddy[]>([]);
+  const [formErrors, setFormErrors] = useState({
+    linkUrl: false,
+    name: false,
+    categoryId: false,
+  });
 
   useEffect(() => {
     const getCategories = async () => {
-      const initialData = await getMyCategoryList(); // 초기 데이터 로드
+      const initialData = await getMyCategoryList();
       setCategories(initialData);
     };
     getCategories();
@@ -32,10 +37,10 @@ const AddLinkForm = () => {
   async function handleRadioChange(value: 'private' | 'buddy') {
     setRadioValue(value);
     if (value === 'private') {
-      let data = await getMyCategoryList();
+      const data = await getMyCategoryList();
       setCategories(data);
     } else {
-      const buddylist = await getBuddyList(); // 버디 카테고리 데이터 로드
+      const buddylist = await getBuddyList();
       setBuddyList(buddylist);
       setCategories([]);
     }
@@ -43,95 +48,132 @@ const AddLinkForm = () => {
 
   const navigate = useNavigate();
   const handleSubmit = async () => {
+    const errors = {
+      linkUrl: !linkData.linkUrl,
+      name: !linkData.name,
+      categoryId: !linkData.categoryId,
+    };
+    setFormErrors(errors);
+
+    if (Object.values(errors).some((error) => error)) {
+      return;
+    }
+
     await createLink(linkData);
     navigate(`/category/${linkData.categoryId}`);
   };
+
   return (
-    <div>
-      <h2 className="text-center mb-4 text-lg">ADD LINK</h2>
+    <div className="p-6">
+      <h2 className="text-center mb-6 text-xl font-semibold text-gray-800">
+        링크 추가
+      </h2>
       <Form layout="vertical">
-        <Form.Item label="링크주소">
+        <Form.Item
+          label="링크 URL"
+          className="font-medium text-gray-700"
+          validateStatus={formErrors.linkUrl ? 'error' : undefined}
+          help={formErrors.linkUrl && '링크 URL은 필수 항목입니다.'}
+        >
           <Input
-            placeholder="링크주소"
-            className="p-2"
-            onChange={(e) =>
-              setLinkData({ ...linkData, linkUrl: e.target.value })
-            } // 링크주소 상태 업데이트
+            placeholder="Enter link URL"
+            className="p-3 border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            onChange={(e) => {
+              setLinkData({ ...linkData, linkUrl: e.target.value });
+              setFormErrors({ ...formErrors, linkUrl: false });
+            }}
           />
         </Form.Item>
-        <Form.Item label="링크이름">
+        <Form.Item
+          label="링크명"
+          className="font-medium text-gray-700"
+          validateStatus={formErrors.name ? 'error' : undefined}
+          help={formErrors.name && '링크명은 필수 항목입니다.'}
+        >
           <Input
-            placeholder="링크이름"
-            className="p-2"
-            onChange={(e) => setLinkData({ ...linkData, name: e.target.value })} // 링크이름 상태 업데이트
+            placeholder="Enter link name"
+            className="p-3 border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            onChange={(e) => {
+              setLinkData({ ...linkData, name: e.target.value });
+              setFormErrors({ ...formErrors, name: false });
+            }}
           />
         </Form.Item>
-        <Form.Item label="설명">
+        <Form.Item label="내용(선택)" className="font-medium text-gray-700">
           <TextArea
             rows={4}
-            placeholder="설명"
+            placeholder="Enter description"
+            className="p-3 border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
             onChange={(e) =>
               setLinkData({ ...linkData, description: e.target.value })
-            } // 설명 상태 업데이트
+            }
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item className="mt-4">
           <Radio.Group
             defaultValue="private"
             className="flex justify-between"
             onChange={(e) => handleRadioChange(e.target.value)}
           >
-            <Radio.Button value="private" className="flex-1 text-center">
-              PRIVATE
+            <Radio.Button
+              value="private"
+              className="flex-1 text-center rounded-l-md border border-gray-300 bg-gray-50 hover:bg-blue-100 h-10 flex items-center justify-center"
+            >
+              Private
             </Radio.Button>
-            <Radio.Button value="buddy" className="flex-1 text-center">
-              BUDDY
+            <Radio.Button
+              value="buddy"
+              className="flex-1 text-center rounded-l-md border border-gray-300 bg-gray-50 hover:bg-blue-100 h-10 flex items-center justify-center"
+            >
+              Buddy
             </Radio.Button>
           </Radio.Group>
         </Form.Item>
         {radioValue === 'buddy' && (
-          <Form.Item label="버디그룹">
+          <Form.Item label="버디 그룹" className="font-medium text-gray-700">
             <Select
-              placeholder="버디그룹"
+              placeholder="Select a buddy group"
+              className="w-full border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
               onChange={async (value) => {
                 setLinkData({ ...linkData, categoryId: value });
-                const buddyCategory = await getBuddyCategoryList(value); // 선택한 버디에 대한 카테고리 요청
-                setCategories(buddyCategory); // 버디 카테고리 업데이트
-              }} // 버디그룹 상태 업데이트
+                setFormErrors({ ...formErrors, categoryId: false });
+                const buddyCategory = await getBuddyCategoryList(value);
+                setCategories(buddyCategory);
+              }}
             >
-              {buddyList.map(
-                // 버디 카테고리 리스트로 표시
-                (buddy) => (
-                  <Option key={buddy.id} value={buddy.buddyId}>
-                    {buddy.name}
-                  </Option>
-                )
-              )}
+              {buddyList.map((buddy) => (
+                <Option key={buddy.id} value={buddy.buddyId}>
+                  {buddy.name}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
         )}
-        <Form.Item label="폴더">
+        <Form.Item
+          label="카테고리"
+          className="font-medium text-gray-700"
+          validateStatus={formErrors.categoryId ? 'error' : undefined}
+          help={formErrors.categoryId && '카테고리는 필수 항목입니다.'}
+        >
           <Select
-            placeholder="폴더"
-            onChange={(value) =>
-              setLinkData({ ...linkData, categoryId: value })
-            } // 폴더 상태 업데이트
+            placeholder="Select a category"
+            className="w-full border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+            onChange={(value) => {
+              setLinkData({ ...linkData, categoryId: value });
+              setFormErrors({ ...formErrors, categoryId: false });
+            }}
           >
-            {categories.map(
-              (
-                category // 카테고리 리스트로 표시
-              ) => (
-                <Option key={category.id} value={category.id}>
-                  {category.categoryName}
-                </Option>
-              )
-            )}
+            {categories.map((category) => (
+              <Option key={category.id} value={category.id}>
+                {category.categoryName}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
-        <Form.Item className="mt-20">
+        <Form.Item className="mt-8">
           <Button
             type="primary"
-            className="w-full h-12 flex items-center justify-center"
+            className="w-full h-12 flex items-center justify-center bg-808080 hover:bg-blue-600 text-white font-medium rounded-md p-3"
             onClick={handleSubmit}
           >
             추가

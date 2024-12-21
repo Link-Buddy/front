@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import MyTopProfile from 'components/MyTopPrifile';
 import { getBuddyInvitation } from 'api/buddy';
 import { useEffect, useState } from 'react';
+import { getAccessKey } from 'utils/authStorage';
+import { getMyInfo } from 'api/user';
 
 const TopBar = () => {
   const navigate = useNavigate();
@@ -12,6 +14,30 @@ const TopBar = () => {
   const [userImage, setUserImage] = useState<string>(
     '/images/basicProfile.png'
   );
+
+  const accessToken = getAccessKey(); // localStorage에서 accessToken 가져오기
+
+  /** 사용자 정보 호출 */
+  const fetchUserInfo = async () => {
+    try {
+      if (accessToken) {
+        const user = await getMyInfo(); // API 호출
+        setUserId(user.id); // 사용자 정보 상태에 저장
+        if (user.imageUrl) {
+          setUserImage(user.imageUrl);
+        }
+      } else {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getInvitationCount();
+    fetchUserInfo(); // 컴포넌트 렌더링 후 사용자 정보 호출
+  }, []); // 빈 배열로 한번만 호출
 
   /** 받은 초대장 개수 조회 */
   const getInvitationCount = async () => {
@@ -33,6 +59,10 @@ const TopBar = () => {
   const onClickEnvelope = () => {
     navigate('/buddy/invitation');
   };
+
+  useEffect(() => {
+    getInvitationCount();
+  }, []);
 
   return (
     <div

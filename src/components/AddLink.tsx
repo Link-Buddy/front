@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'; // useNavigate 훅 임포트
+import '../styles/css/addLink.css'; // 애니메이션 CSS 파일 임포트
 
 const AddLink: React.FC = () => {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -15,8 +16,7 @@ const AddLink: React.FC = () => {
       <Button
         type="default"
         icon={<PlusOutlined />}
-        style={{ width: '100%', backgroundColor: '#457c9d', color: 'white' }}
-        className="p-6"
+        className="p-6 animated-gradient-button"
         onClick={handleNavigate} // 클릭 시 페이지 이동 함수 호출
       >
         오늘의 링크 추가
