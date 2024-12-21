@@ -11,6 +11,7 @@ const RecentViewPage = () => {
     <SearchLink
       fetchLinks={() => searchLinkByIds(recentLinkIds)}
       title="최근 본 링크"
+      type="recentview"
     />
   );
 };

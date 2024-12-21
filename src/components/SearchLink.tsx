@@ -16,9 +16,10 @@ import { ISearchLink } from 'types/Link';
 interface SearchListProps {
   fetchLinks: (value?: string) => Promise<ISearchLink[]>; // 링크를 가져오는 함수
   title: string; // 제목
+  type: string;
 }
 
-const SearchList: React.FC<SearchListProps> = ({ fetchLinks, title }) => {
+const SearchList: React.FC<SearchListProps> = ({ fetchLinks, title, type }) => {
   const [initLoading, setInitLoading] = useState(true);
   const [list, setList] = useState<ISearchLink[]>([]);
   const [searchValue, setSearchValue] = useState('');
@@ -31,14 +32,16 @@ const SearchList: React.FC<SearchListProps> = ({ fetchLinks, title }) => {
     setInitLoading(false); // 로딩 상태 종료
   };
 
-  useEffect(() => {
-    const fetchMyLinks = async () => {
-      const mylinks = await fetchLinks(); // 초기 데이터 가져오기
-      setList(mylinks);
-      setInitLoading(false);
-    };
+  const fetchMyLinks = async () => {
+    const mylinks = await fetchLinks(); // 초기 데이터 가져오기
+    setList(mylinks);
+    setInitLoading(false);
+  };
 
-    fetchMyLinks();
+  useEffect(() => {
+    if (type !== 'search') {
+      fetchMyLinks();
+    }
   }, [fetchLinks]);
 
   const handleDataPath = (link: ISearchLink) => {
@@ -53,22 +56,23 @@ const SearchList: React.FC<SearchListProps> = ({ fetchLinks, title }) => {
   };
 
   return (
-    <div>
-      <div style={{ padding: '0px 25px 50px 25px ' }}>
+    <div style={{ padding: '0px 25px 50px 25px' }}>
+      <div>
         <Flex justify="flex-start">
           <Typography.Title level={3}>{title}</Typography.Title>
         </Flex>
       </div>
-      {title == '검색' && (
+      {title === '검색' && (
         <Input.Search
           placeholder="검색어를 입력해주세요."
           allowClear
+          size="large"
           onSearch={onSearch}
           onChange={(e) => setSearchValue(e.target.value)}
-          style={{ width: '100%', height: 40 }}
+          style={{ width: '100%', height: 40, padding: '10px 0px' }}
         />
       )}
-      <Divider />
+      <Divider style={{ marginTop: 30 }} />
       {list.length > 0 ? (
         <List
           loading={initLoading}
@@ -103,7 +107,7 @@ const SearchList: React.FC<SearchListProps> = ({ fetchLinks, title }) => {
                       <Typography.Text className="flex justify-start pt-2 text-slate-400 text-xs">
                         {item.linkDescription}
                       </Typography.Text>
-                      <Typography.Text className="flex justify-start font-medium">
+                      <Typography.Text className="font-medium line-clamp-2 overflow-hidden break-all">
                         {item.linkUrl}
                       </Typography.Text>
                     </div>

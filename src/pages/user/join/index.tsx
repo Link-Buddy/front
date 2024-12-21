@@ -1,15 +1,13 @@
-import { LockOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { saveUser } from 'api/user';
 import SuccessJoinModal from 'components/modals/SuccessJoinModal';
 import { useModal } from 'hooks/useModal';
 import { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const UserJoinPage = () => {
   const [form] = useForm();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string | null>(null); // 로그인 에러 상태
   const { isOpen, openModal, closeModal } = useModal();

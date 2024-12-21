@@ -28,7 +28,7 @@ export interface UpdateLink {
 }
 
 export interface ISearchLink {
-  id: string | null;
+  linkId: number | null;
   buddyName: string | null;
   categoryName: string;
   shareTypeCd: number;
