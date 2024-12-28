@@ -8,6 +8,7 @@ interface FolderProps {
   id: number;
   title: string;
   count: number;
+  buddyId?: number;
 }
 
 export const generateRandomColor = (): string => {
@@ -19,13 +20,22 @@ export const generateRandomColor = (): string => {
   return color;
 };
 
-const FolderComponent: React.FC<FolderProps> = ({ id, title, count }) => {
+const FolderComponent: React.FC<FolderProps> = ({
+  id,
+  title,
+  count,
+  buddyId,
+}) => {
   const navigate = useNavigate();
   const [bgColor] = useState<string>(generateRandomColor()); // 랜덤 컬러 고정
 
   const onClickFolderDetail = () => {
     console.log('폴더 상세 이동');
-    navigate(`/category/${id}`);
+    if (buddyId) {
+      navigate(`/category/${id}?buddyId=${buddyId}`);
+    } else {
+      navigate(`/category/${id}`);
+    }
   };
   return (
     <Space size="large" className="p-4 m-2">

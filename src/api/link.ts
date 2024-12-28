@@ -20,6 +20,16 @@ export const getLinkByCategoryId = async (
   return data.data;
 };
 
+export const getBuddyLinks = async (
+  categoryId: string,
+  buddyId: string
+): Promise<{ category: LinkCategory; links: Link[] }> => {
+  const { data } = await axiosInstance.get(`/links/category/${categoryId}`, {
+    params: { buddyId },
+  });
+  return data.data;
+};
+
 /** 최근본 링크들 검색 */
 export const searchLinkByIds = async (
   linkIds: [number]

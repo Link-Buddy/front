@@ -1,24 +1,26 @@
 import React from 'react';
+import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
-const FloatAddLinkBtn: React.FC = () => {
-  const navigate = useNavigate(); // useNavigate 훅 사용
+const AddLink: React.FC = () => {
+  const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate('/add-link'); // 클릭 시 이동할 페이지 경로
   };
 
   return (
-    <div className="  z-20 pointer-events-none w-full flex justify-end pr-4">
-      <button
-        className="bg-pink-500 text-white p-4 rounded-full shadow-lg pointer-events-auto"
+    <div className="relative max-w-screen-lg mx-auto">
+      {/* 버튼을 레이아웃 우측 하단에 고정 */}
+      <Button
+        type="default"
+        icon={<PlusOutlined />}
+        className="fixed bottom-20 right-5 bg-[#1d3557] hover:bg-[#1a2e4c] text-white rounded-full w-16 h-16 shadow-lg flex items-center justify-center z-50"
         onClick={handleNavigate}
-      >
-        <PlusOutlined style={{ fontSize: '24px' }} />
-      </button>
+      />
     </div>
   );
 };
 
-export default FloatAddLinkBtn;
+export default AddLink;

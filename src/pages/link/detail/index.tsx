@@ -13,18 +13,20 @@ import {
 import { LinkComponent } from 'components/Link';
 import { SearchComponent } from 'components/Search';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useModal } from 'hooks/useModal';
 import { MoveLinkModal } from 'components/modals/MoveLinkModal';
 import { AlertModal } from 'components/modals/AlertModal';
-import { getLinkByCategoryId } from 'api/link';
+import { getBuddyLinks, getLinkByCategoryId } from 'api/link';
 
 import { Link } from 'types/Link';
 import { useMessage } from 'hooks/useMessage';
 
 const LinkDetailPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
-
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const buddyId = searchParams.get('buddyId');
   /** 편집 링크 */
   const [showEdit, setShowEdit] = useState<boolean>(false);
   /** 선택 링크 */
@@ -61,7 +63,9 @@ const LinkDetailPage = () => {
     if (!categoryId) return;
     setLoading(true);
     try {
-      const result = await getLinkByCategoryId(categoryId);
+      const result = buddyId
+        ? await getBuddyLinks(categoryId, buddyId)
+        : await getLinkByCategoryId(categoryId);
       console.log('result : ', result);
       setLinks(result.links);
       setCategory({

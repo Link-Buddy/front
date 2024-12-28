@@ -119,13 +119,19 @@ const BuddyPage: React.FC = () => {
         </Typography.Text>
       </Row>
       <Divider style={{ margin: '10px 0px' }} />
-      <div className="flex flex-wrap justify-between ">
+      <div
+        className="flex flex-wrap justify-start p-4 relative"
+        style={{
+          gap: '20px', // 아이템 간 간격 설정
+        }}
+      >
         {categories.map((category) => (
           <FolderComponent
             key={category.id}
             id={category.id}
             title={category.categoryName}
             count={category.linkCount}
+            buddyId={Number(category.buddyId)}
           />
         ))}
       </div>
@@ -150,7 +156,12 @@ const BuddyPage: React.FC = () => {
 
               setCategories((prevCategories) => [
                 ...prevCategories,
-                { id: newCategory.id, categoryName, linkCount: 0 },
+                {
+                  id: newCategory.id,
+                  categoryName,
+                  linkCount: 0,
+                  buddyId: Number(buddyId),
+                },
               ]); // 새 카테고리 추가
             } catch (error) {
               console.error('카테고리 추가 실패:', error); // 에러 처리
