@@ -1,6 +1,6 @@
 import { PiEnvelopeLight } from 'react-icons/pi';
 import { Avatar, Badge } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MyTopProfile from 'components/MyTopPrifile';
 import { getBuddyInvitation } from 'api/buddy';
 import { useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { getMyInfo } from 'api/user';
 
 const TopBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [invitationCount, setInvitationCount] = useState<number>(0);
   const [userId, setUserId] = useState<number | null>(null); // 사용자 ID를 저장할 상태
   const [userImage, setUserImage] = useState<string>(
@@ -37,7 +38,7 @@ const TopBar = () => {
   useEffect(() => {
     getInvitationCount();
     fetchUserInfo(); // 컴포넌트 렌더링 후 사용자 정보 호출
-  }, []); // 빈 배열로 한번만 호출
+  }, [location.pathname]); // 빈 배열로 한번만 호출
 
   /** 받은 초대장 개수 조회 */
   const getInvitationCount = async () => {
@@ -45,10 +46,6 @@ const TopBar = () => {
     const notAcceptList = result.filter((data) => data.acceptTf === false);
     setInvitationCount(notAcceptList.length);
   };
-
-  useEffect(() => {
-    getInvitationCount();
-  }, []);
 
   /** 회원 사진 클릭 */
   const handleDetailClick = () => {

@@ -6,6 +6,9 @@ import TopBar from 'components/topBar';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+const checkPathMatch = (paths: string[], currentPath: string) =>
+  paths.some((path) => currentPath.startsWith(path));
+
 const LayoutComponent = ({ children }: any) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,36 +17,39 @@ const LayoutComponent = ({ children }: any) => {
   const showBackBtnPath = ['/category', '/buddy', '/user/join', '/add-buddy'];
   const hideBackBtnPath = ['/buddy/list'];
   // NavBar
-  const [showNavBarPath, setShowNavBarPath] = useState<boolean>(true);
+  const [showNavBar, setShowNavBar] = useState<boolean>(true);
   const hideNavBarPath = ['/login', '/user/join'];
+  // TopBar
+  const [showTopBar, setShowTopBar] = useState<boolean>(false);
+  const hideTopBarPath = ['/login', '/user'];
 
   const handleBackButton = () => {
     navigate(-1);
   };
 
-  const showTopBar = !location.pathname.startsWith('/user');
-
   useEffect(() => {
-    // NavBar 노출 페이지인지 확인
-    const checkHideNavBarPath = hideNavBarPath.some((path) =>
-      location.pathname.startsWith(path)
-    );
-    if (checkHideNavBarPath) {
-      setShowNavBarPath(false);
-    } else {
-      setShowNavBarPath(true);
-    }
-    // 뒤로가기 버튼 노출 페이지인지 확인
-    const checkShowBackBtnPath =
-      showBackBtnPath.some((path) => location.pathname.startsWith(path)) &&
-      !hideBackBtnPath.some((path) => location.pathname.startsWith(path));
+    const currentPath = location.pathname;
 
-    if (checkShowBackBtnPath) {
-      setShowBackBtn(true);
-    } else {
-      setShowBackBtn(false);
-    }
-  }, [location.pathname]);
+    // TopBar 노출 페이지인지 확인
+    const hideTopBarStatus = !checkPathMatch(hideTopBarPath, currentPath);
+    setShowTopBar(hideTopBarStatus);
+
+    // NavBar 노출 페이지인지 확인
+    const hideNavBarStatus = !checkPathMatch(hideNavBarPath, currentPath);
+    setShowNavBar(hideNavBarStatus);
+
+    // 뒤로가기 버튼 노출 페이지인지 확인
+    const showBackBtnStatus =
+      checkPathMatch(showBackBtnPath, currentPath) &&
+      !checkPathMatch(hideBackBtnPath, currentPath);
+    setShowBackBtn(showBackBtnStatus);
+  }, [
+    hideBackBtnPath,
+    hideNavBarPath,
+    hideTopBarPath,
+    location.pathname,
+    showBackBtnPath,
+  ]);
 
   return (
     <Layout className="relative max-w-screen-md h-dvh">
@@ -75,7 +81,7 @@ const LayoutComponent = ({ children }: any) => {
         )}
         {children}
       </Content>
-      {showNavBarPath && <NavBar />}
+      {showNavBar && <NavBar />}
     </Layout>
   );
 };
