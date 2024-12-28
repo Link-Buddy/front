@@ -4,28 +4,39 @@ import FloatAddLinkBtn from '../../../components/FloatAddLinkBtn';
 import UserProfile from 'components/UserProfile';
 import '../../../styles/css/buddy.css';
 
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  LogoutOutlined,
+  MinusOutlined,
+} from '@ant-design/icons';
 import { SearchComponent } from 'components/Search';
 import { useParams } from 'react-router-dom';
-import { getBuddyUserList } from 'api/buddy';
 import { Divider, Row, Typography } from 'antd';
 import { createBuddyCategory, getBuddyCategoryList } from 'api/category';
 import { Category } from 'types/Category';
 import AddCategoryModal from 'components/modals/AddCategoryModal';
+import { getBuddyUserInfo } from 'api/buddy';
+import BuddyOutModal from 'components/modals/BuddyOutModal';
+import { useModal } from 'hooks/useModal';
 
 const BuddyPage: React.FC = () => {
   const { buddyId } = useParams();
+  const { isOpen, openModal, closeModal } = useModal();
   // 버디 회원 리스트
   const [buddyUserList, setBuddyUserList] = useState<BuddyUser[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  // 방장
+  const [isCreator, setIsCreator] = useState<boolean>(false);
+
   const handleNavigate = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closCategoryModal = () => {
     setIsModalOpen(false);
   };
 
@@ -52,16 +63,17 @@ const BuddyPage: React.FC = () => {
   };
 
   /** 버디 회원 조회 */
-  const getBuddyUserListData = async () => {
+  const getBuddyUserData = async () => {
     console.log('buddyId', buddyId);
-    const result = await getBuddyUserList(Number(buddyId));
+    const result = await getBuddyUserInfo(Number(buddyId));
     console.log('get buddyUser list result ??', result);
 
-    setBuddyUserList(result);
+    setBuddyUserList(result.list);
+    setIsCreator(result.isCreator);
   };
 
   useEffect(() => {
-    getBuddyUserListData();
+    getBuddyUserData();
   }, []);
 
   /** 버디 카테고리 조회 */
@@ -113,7 +125,26 @@ const BuddyPage: React.FC = () => {
       <div>
         <SearchComponent />
       </div>
-      <Row justify={'end'}>
+      <Row justify={'space-between'}>
+        <Typography.Text>
+          {isCreator ? (
+            <a
+              onClick={() => openModal('buddyOut')}
+              style={{ color: '#ff4d4d' }}
+            >
+              <MinusOutlined style={{ paddingRight: 5 }} />
+              버디 삭제
+            </a>
+          ) : (
+            <a
+              onClick={() => openModal('buddyOut')}
+              style={{ color: '#ff4d4d' }}
+            >
+              <MinusOutlined style={{ paddingRight: 5 }} />
+              버디 나가기
+            </a>
+          )}
+        </Typography.Text>
         <Typography.Text>
           <a onClick={handleNavigate}>+ 새 폴더</a>
         </Typography.Text>
@@ -139,7 +170,7 @@ const BuddyPage: React.FC = () => {
       </div>
       {isModalOpen && (
         <AddCategoryModal
-          onClose={closeModal}
+          onClose={closCategoryModal}
           onAdd={async (categoryName) => {
             handleAddFolder(categoryName);
             try {
@@ -156,6 +187,14 @@ const BuddyPage: React.FC = () => {
               console.error('카테고리 추가 실패:', error); // 에러 처리
             }
           }}
+        />
+      )}
+      {/* 버디 나가기 모달 */}
+      {isOpen('buddyOut') && (
+        <BuddyOutModal
+          closeModal={closeModal}
+          isOpen={isOpen('buddyOut')}
+          buddyData={{ buddyId: buddyId, isCreator: isCreator }}
         />
       )}
     </div>

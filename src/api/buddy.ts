@@ -27,12 +27,13 @@ export const updateBuddyUser = async (
   return data;
 };
 
-/** 버디 회원 리스트 조회 */
-export const getBuddyUserList = async (
+/** 버디 회원 리스트 & 방장인지 확인 */
+export const getBuddyUserInfo = async (
   buddyId: number
-): Promise<BuddyUser[]> => {
+): Promise<{ isCreator: boolean; list: BuddyUser[] }> => {
   const params = { buddyId: buddyId };
   const { data } = await axiosInstance.get('/buddy/user', { params });
+  console.log('data 확인', data);
   return data.data;
 };
 
@@ -47,4 +48,21 @@ export const addBuddyUser = async (buddyUserData: any): Promise<any> => {
 export const getBuddyInvitation = async (): Promise<BuddyInvitation[]> => {
   const { data } = await axiosInstance.get('/buddy/user/invitation');
   return data.data;
+};
+
+/** 버디 삭제 */
+export const deleteBuddy = async (
+  buddyId: number
+): Promise<{ status: string; data: boolean }> => {
+  const { data } = await axiosInstance.delete(`/buddy/${buddyId}`);
+  console.log('dddddddddddd', data);
+  return data;
+};
+
+/** 버디 탈퇴(나가기) */
+export const deleteBuddyUser = async (
+  buddyId: number
+): Promise<{ status: string; data: boolean }> => {
+  const { data } = await axiosInstance.delete(`/buddy/user/${buddyId}`);
+  return data;
 };

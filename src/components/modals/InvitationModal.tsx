@@ -1,4 +1,13 @@
-import { Divider, Flex, Form, message, Modal, Select, Typography } from 'antd';
+import {
+  Button,
+  Divider,
+  Flex,
+  Form,
+  message,
+  Modal,
+  Select,
+  Typography,
+} from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import Search from 'antd/es/input/Search';
 import { addBuddyUser, getBuddyList } from 'api/buddy';
@@ -107,6 +116,33 @@ export const InvitationModal: React.FC<ModalProps> = ({
         onOk={handleOk}
         onCancel={() => closeModal('invitation')}
         style={{ padding: 30 }}
+        okText="확인"
+        cancelText="취소"
+        footer={
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <Button
+              size="large"
+              style={{ flex: 1, marginRight: 8 }}
+              onClick={() => closeModal('buddyOut')}
+            >
+              취소
+            </Button>
+            <Button
+              size="large"
+              type="primary"
+              style={{ flex: 1, marginLeft: 8 }}
+              onClick={handleOk}
+            >
+              확인
+            </Button>
+          </div>
+        }
       >
         <Divider style={{ margin: '10px 0px 20px 0px' }} />
         <Flex justify="flex" vertical>
@@ -149,7 +185,6 @@ export const InvitationModal: React.FC<ModalProps> = ({
                   onSearch={onSearch}
                   // style={{ width: 360 }}
                   onChange={(e) => {
-                    console.log('e.target.valoue', e.target.value);
                     if (e.target.value === '') {
                       setValidationStatus('error');
                       setValidationMessage('이메일을 입력해주세요.');

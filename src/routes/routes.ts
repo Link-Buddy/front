@@ -23,10 +23,6 @@ export const routes = [
     element: HomePage,
   },
   {
-    path: '/',
-    element: HomePage,
-  },
-  {
     path: '/home',
     element: HomePage,
   },
