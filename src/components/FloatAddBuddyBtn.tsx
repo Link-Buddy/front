@@ -1,24 +1,28 @@
 import React from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 
 const FloatAddBuddyBtn: React.FC = () => {
-    const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
-    const handleNavigate = () => {
-        navigate('/add-buddy'); // 클릭 시 이동할 페이지 경로
-    };
+  const handleNavigate = () => {
+    navigate('/add-buddy'); // 클릭 시 이동할 페이지 경로
+  };
 
-    return (
-        <div className="  z-20 pointer-events-none w-full flex justify-end pr-4">
-            <button
-                className="bg-pink-500 text-white p-4 rounded-full shadow-lg pointer-events-auto"
-                onClick={handleNavigate}
-            >
-                <PlusOutlined style={{ fontSize: '24px' }} />
-            </button>
-        </div>
-    );
+  return (
+    <div className="relative max-w-[768px] mx-auto">
+      {/* 버튼을 고정된 위치에 배치 */}
+      <div className="fixed bottom-32 right-[calc((100vw-768px)/2+20px)]">
+        <Button
+          type="default"
+          icon={<PlusOutlined style={{ color: 'black' }} />}
+          className="fixedAddLinkBtn !w-auto !h-16 bg-[#a8dadc] hover:bg-[#a8dadc] text-white rounded-full shadow-lg flex items-center justify-center z-50 aspect-square !p-0"
+          onClick={handleNavigate}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default FloatAddBuddyBtn;

@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom'; // useNavigate 훅 임포트
 import '../styles/css/addLink.css'; // 애니메이션 CSS 파일 임포트
 
+//메인 오늘의링크 추가 버튼
 const AddLink: React.FC = () => {
   const navigate = useNavigate(); // useNavigate 훅 사용
 

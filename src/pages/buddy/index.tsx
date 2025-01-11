@@ -1,24 +1,20 @@
-import { Divider, Flex, Image, List, Row, Skeleton, Typography } from 'antd';
-import { getBuddyList, updateBuddyUser } from 'api/buddy';
-import { InvitationModal } from 'components/modals/InvitationModal';
-import { SearchComponent } from 'components/Search';
-import { useModal } from 'hooks/useModal';
-import { useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { Divider, List, Row, Typography, Skeleton, Image } from 'antd';
 import { IoHeart } from 'react-icons/io5';
 import { IoMdHeartEmpty } from 'react-icons/io';
-import { BsBellFill } from 'react-icons/bs';
-import { BsBellSlash } from 'react-icons/bs';
-
-import { Navigate, useNavigate } from 'react-router-dom';
+import { BsBellFill, BsBellSlash } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
+import { getBuddyList, updateBuddyUser } from 'api/buddy';
+import { useModal } from 'hooks/useModal';
+import { InvitationModal } from 'components/modals/InvitationModal';
+import { SearchComponent } from 'components/Search';
 import FloatAddBuddyBtn from 'components/FloatAddBuddyBtn';
 
 const BuddyListPage = () => {
   const navigate = useNavigate();
   const [initLoading, setInitLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [list, setList] = useState<any[]>([]);
-  // modal
+
   const { isOpen, openModal, closeModal } = useModal();
 
   // 버디 리스트 조회
@@ -30,7 +26,10 @@ const BuddyListPage = () => {
     setList(result);
   };
 
-  // 회원 버디 수정
+  const handleNavigate = () => {
+    navigate('/add-buddy'); // 클릭 시 이동할 페이지 경로
+  };
+
   const updateBuddyUserData = async (type: string, data: any) => {
     const body = {
       ...data,
@@ -48,110 +47,119 @@ const BuddyListPage = () => {
   return (
     <>
       <div style={{ padding: '0px 25px 50px 25px' }}>
-        <Flex justify="flex-start">
-          <Typography.Title level={3}>버디</Typography.Title>
-        </Flex>
+        <Typography.Title level={3}>버디</Typography.Title>
         <div style={{ padding: '10px 0px 30px 0px' }}>
           <SearchComponent />
         </div>
-        {/* <Tooltip title="친구를 초대해보세요!" color={'gold'} trigger={"hover"}> */}
         <Image
           style={{
             width: 200,
-            borderRadius: 10,
-            paddingBottom: 20,
             cursor: 'pointer',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
           }}
-          src={'/images/invitation.png'}
+          src={'/images/invite.jpg'}
           alt="invitation"
           preview={false}
           onClick={() => openModal('invitation')}
         />
-        {/* </Tooltip> */}
         <Divider />
         <div>
           <List
             loading={initLoading}
             itemLayout="horizontal"
-            // loadMore={loadMore}
-            dataSource={list}
-            renderItem={(item: any) => (
-              <List.Item
-                style={{
-                  justifyContent: 'space-between',
-                }}
-
-                // actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
-              >
-                <div>
-                  <a onClick={() => navigate(`/buddy/${item.buddyId}`)}>
-                    <Typography.Text strong>{item.name}</Typography.Text>
-                  </a>
-                </div>
-                <Row>
-                  <a onClick={() => updateBuddyUserData('pinTf', item)}>
-                    {item.pinTf ? (
-                      <IoHeart
-                        style={{
-                          fontSize: 22,
-                          color: '#ff4d4d',
-                        }}
-                      />
-                    ) : (
-                      <IoMdHeartEmpty
-                        style={{
-                          fontSize: 22,
-                          color: '#bfbfbf',
-                        }}
-                      />
-                    )}
-                  </a>
-                  <Divider
-                    type="vertical"
+            dataSource={[{ special: true }, ...list]} // "버디 추가" Row 추가
+            renderItem={(item: any) =>
+              item.special ? (
+                <List.Item>
+                  <Row
                     style={{
-                      borderLeft: '1px solid #666666',
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#f1fbee',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                     }}
-                  />
-                  <a onClick={() => updateBuddyUserData('alertTf', item)}>
-                    {item.alertTf ? (
-                      <BsBellFill
-                        style={{
-                          fontSize: 18,
-                          color: '#bfbfbf',
-                        }}
-                      />
-                    ) : (
-                      <BsBellSlash
-                        style={{
-                          fontSize: 18,
-                          color: '#bfbfbf',
-                        }}
-                      />
-                    )}
-                  </a>
-                </Row>
-                <Skeleton avatar title={false} loading={item.loading} active>
-                  {/* <List.Item.Meta
-                            avatar={<Avatar src={item.picture.large} />}
-                            title={<a href="https://ant.design">{item.name?.last}</a>}
-                            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                    onClick={handleNavigate}
+                  >
+                    <Typography.Text
+                      style={{
+                        color: '#1d3557',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      + 버디 추가
+                    </Typography.Text>
+                  </Row>
+                </List.Item>
+              ) : (
+                <List.Item
+                  style={{
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    <a onClick={() => navigate(`/buddy/${item.buddyId}`)}>
+                      <Typography.Text strong>{item.name}</Typography.Text>
+                    </a>
+                  </div>
+                  <Row>
+                    <a onClick={() => updateBuddyUserData('pinTf', item)}>
+                      {item.pinTf ? (
+                        <IoHeart
+                          style={{
+                            fontSize: 22,
+                            color: '#ff4d4d',
+                          }}
                         />
-                        <div>content</div> */}
-                </Skeleton>
-              </List.Item>
-            )}
+                      ) : (
+                        <IoMdHeartEmpty
+                          style={{
+                            fontSize: 22,
+                            color: '#bfbfbf',
+                          }}
+                        />
+                      )}
+                    </a>
+                    <Divider
+                      type="vertical"
+                      style={{
+                        borderLeft: '1px solid #666666',
+                      }}
+                    />
+                    <a onClick={() => updateBuddyUserData('alertTf', item)}>
+                      {item.alertTf ? (
+                        <BsBellFill
+                          style={{
+                            fontSize: 18,
+                            color: '#bfbfbf',
+                          }}
+                        />
+                      ) : (
+                        <BsBellSlash
+                          style={{
+                            fontSize: 18,
+                            color: '#bfbfbf',
+                          }}
+                        />
+                      )}
+                    </a>
+                  </Row>
+                  <Skeleton
+                    avatar
+                    title={false}
+                    loading={item.loading}
+                    active
+                  />
+                </List.Item>
+              )
+            }
           />
-          <div
-            className=" "
-            style={{
-              zIndex: 10, // 네비바보다 뒤에 위치하도록 설정
-            }}
-          >
-            <FloatAddBuddyBtn />
-          </div>
         </div>
       </div>
-      {/* 초대장 모달 */}
       {isOpen('invitation') && (
         <InvitationModal
           closeModal={closeModal}
@@ -161,4 +169,5 @@ const BuddyListPage = () => {
     </>
   );
 };
+
 export default BuddyListPage;
