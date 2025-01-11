@@ -30,7 +30,11 @@ export const updateBuddyUser = async (
 /** 버디 회원 리스트 & 방장인지 확인 */
 export const getBuddyUserInfo = async (
   buddyId: number
-): Promise<{ isCreator: boolean; list: BuddyUser[] }> => {
+): Promise<{
+  buddyInfo: { id: number; name: string; createdAt: number };
+  isCreator: boolean;
+  list: BuddyUser[];
+}> => {
   const params = { buddyId: buddyId };
   const { data } = await axiosInstance.get('/buddy/user', { params });
   console.log('data 확인', data);
@@ -64,5 +68,14 @@ export const deleteBuddyUser = async (
   buddyId: number
 ): Promise<{ status: string; data: boolean }> => {
   const { data } = await axiosInstance.delete(`/buddy/user/${buddyId}`);
+  return data;
+};
+
+/** 버디 수정 (이름) */
+export const updateBuddy = async (
+  buddyId: number,
+  buddyData: any
+): Promise<{ status: string; data: boolean }> => {
+  const { data } = await axiosInstance.put(`/buddy/${buddyId}`, buddyData);
   return data;
 };

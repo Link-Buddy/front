@@ -64,6 +64,7 @@ export const LinkComponent: React.FC<LinkProps> = ({
   /** 링크 옵션 노출 여부 (즐겨찾기, 수정, 삭제) */
   const [isEditPopoverVisible, setIsEditPopoverVisible] =
     useState<boolean>(false);
+  const [openPopoverId, setOpenPopoverId] = useState<number | null>(null);
 
   const [linkData, setLinkData] = useState<UpdateLink>({
     id: 0,
@@ -94,9 +95,11 @@ export const LinkComponent: React.FC<LinkProps> = ({
   const Content = ({
     linkId,
     isFavorite,
+    onClose,
   }: {
     linkId: number;
     isFavorite: boolean;
+    onClose: () => void;
   }) => {
     const [currentFavorite, setCurrentFavorite] = useState(isFavorite); // 현재 즐겨찾기 상태
     return (
@@ -105,6 +108,7 @@ export const LinkComponent: React.FC<LinkProps> = ({
           onClick={async () => {
             setCurrentFavorite(!currentFavorite); // 클릭할 때마다 상태 반전
             await onOffFavoriteLink(linkId);
+            setRefresh(refresh + 1);
           }}
         >
           {currentFavorite ? (
@@ -116,8 +120,9 @@ export const LinkComponent: React.FC<LinkProps> = ({
         </a>
         <Divider style={{ margin: '10px 0px' }} />
         <a
-          onClick={() => {
+          onClick={(e) => {
             // setIsEditPopoverVisible(false);
+            onClose();
             openModal('editLink');
           }}
         >
@@ -128,6 +133,7 @@ export const LinkComponent: React.FC<LinkProps> = ({
         <a
           onClick={() => {
             // setIsEditPopoverVisible(false);
+            onClose();
             setAlertType('delete');
             openModal('alert');
           }}
@@ -235,9 +241,14 @@ export const LinkComponent: React.FC<LinkProps> = ({
                             Content({
                               linkId: link.id,
                               isFavorite: link.isFavorite,
+                              onClose: () => setOpenPopoverId(null),
                             })
                           }
                           trigger={'click'}
+                          open={openPopoverId === link.id}
+                          onOpenChange={(visible) => {
+                            setOpenPopoverId(visible ? link.id : null);
+                          }}
                         >
                           <EllipsisOutlined
                             key="ellipsis"
@@ -256,7 +267,25 @@ export const LinkComponent: React.FC<LinkProps> = ({
                           onChange={() => onChangeCheckbox(link.id)}
                         />
                       )}
-
+                      <div
+                        style={{
+                          zIndex: 999,
+                          // position: 'fixed',
+                        }}
+                      >
+                        {link.isFavorite && (
+                          <HeartFilled
+                            style={{
+                              fontSize: 20,
+                              paddingRight: 5,
+                              color: '#ff4d4d',
+                              top: 155,
+                              right: 10,
+                              position: 'absolute',
+                            }}
+                          />
+                        )}
+                      </div>
                       <Row>
                         <Typography.Text
                           strong

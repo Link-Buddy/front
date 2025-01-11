@@ -14,7 +14,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center">
-      <Avatar size={80} icon={<img src={imageUrl} alt={username} />} />
+      <Avatar size={60} icon={<img src={imageUrl} alt={username} />} />
       <div className="text-sm mt-2">{username}</div>
     </div>
   );
