@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
-const AddLink: React.FC = () => {
+const FloatAddLinkBtn: React.FC = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -11,16 +11,18 @@ const AddLink: React.FC = () => {
   };
 
   return (
-    <div className="relative max-w-screen-lg mx-auto">
-      {/* 버튼을 레이아웃 우측 하단에 고정 */}
-      <Button
-        type="default"
-        icon={<PlusOutlined />}
-        className="fixed bottom-20 right-5 bg-[#1d3557] hover:bg-[#1a2e4c] text-white rounded-full w-16 h-16 shadow-lg flex items-center justify-center z-50"
-        onClick={handleNavigate}
-      />
+    <div className="relative max-w-[768px] mx-auto">
+      {/* 버튼을 고정된 위치에 배치 */}
+      <div className="fixed bottom-32 right-[calc((100vw-768px)/2+20px)]">
+        <Button
+          type="default"
+          icon={<PlusOutlined />}
+          className="fixedAddLinkBtn !w-auto !h-16 bg-[#1d3557] hover:bg-[#1a2e4c] text-white rounded-full shadow-lg flex items-center justify-center z-50 aspect-square !p-0"
+          onClick={handleNavigate}
+        />
+      </div>
     </div>
   );
 };
 
-export default AddLink;
+export default FloatAddLinkBtn;
