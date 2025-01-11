@@ -188,7 +188,7 @@ const LinkDetailPage = () => {
             padding: '12px 20px',
             zIndex: 999,
             position: 'fixed',
-            top: 'calc(100vh - 115px)',
+            top: 'calc(100vh - 113px)',
             width: '100%',
             maxWidth: '769px',
             height: '45px',

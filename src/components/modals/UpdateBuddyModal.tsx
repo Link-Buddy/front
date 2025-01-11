@@ -3,20 +3,25 @@ import { Modal, Form, Input, message, Button } from 'antd';
 import { Link, UpdateLink } from 'types/Link';
 import { updateLink } from 'api/link';
 import { useMessage } from 'hooks/useMessage';
+import { updateBuddy } from 'api/buddy';
 
-interface UpdateLinkModalProps {
+interface UpdateBuddyModalProps {
   closeModal: (modalType: string) => void;
   isOpen: boolean;
-  linkData: UpdateLink; // 수정할 링크 데이터
+  data: {
+    id: number;
+    name: string;
+    createdAt: number;
+  };
   // handleSave: (values: Link) => void; // 저장 핸들러
   refresh: number;
   setRefresh: (e: number) => void;
 }
 
-const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
+const UpdateBuddyModal: React.FC<UpdateBuddyModalProps> = ({
   closeModal,
   isOpen,
-  linkData,
+  data,
   // handleSave,
   refresh,
   setRefresh,
@@ -28,17 +33,17 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
   const handleOk = async () => {
     console.log('form', form.getFieldsValue());
     const formData = form.getFieldsValue();
-    formData['categoryId'] = linkData.categoryId;
+    formData['buddyId'] = data.id;
 
-    const result = await updateLink(linkData.id, formData);
+    const result = await updateBuddy(data.id, formData);
     if (result.status === 'OK') {
       message.open({
         type: 'success',
-        content: '링크가 수정되었습니다.',
+        content: '버디 이름이 수정되었습니다.',
       });
       setTimeout(() => {
-        closeModal('editLink');
-      }, 3000);
+        closeModal('editBuddy');
+      }, 1000);
     } else {
       message.open({
         type: 'error',
@@ -46,6 +51,7 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
       });
     }
     setRefresh(refresh + 1);
+    window.location.reload();
   };
 
   const onFinishFailed = (error: any) => {
@@ -55,12 +61,12 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
   return (
     <>
       <Modal
-        title="링크 수정"
+        title="버디 수정"
         closable={true}
         style={{ padding: 30 }}
         open={isOpen}
         onOk={handleOk}
-        onCancel={() => closeModal('editLink')}
+        onCancel={() => closeModal('editBuddy')}
         okText="저장"
         cancelText="취소"
         footer={
@@ -74,7 +80,7 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
             <Button
               size="large"
               style={{ flex: 1, marginRight: 8 }}
-              onClick={() => closeModal('editLink')}
+              onClick={() => closeModal('editBuddy')}
             >
               취소
             </Button>
@@ -93,15 +99,14 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
           form={form}
           // onFinish={handleOk}
           onFinishFailed={onFinishFailed}
-          initialValues={linkData || {}}
+          style={{ paddingTop: 10, paddingBottom: 20 }}
+          initialValues={data || {}}
         >
-          <Form.Item name="name" label="이름" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="description" label="설명">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item name="linkUrl" label="URL" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="이름"
+            rules={[{ required: true, message: '버디 이름을 입력해주세요.' }]}
+          >
             <Input />
           </Form.Item>
         </Form>
@@ -110,4 +115,4 @@ const UpdateLinkModal: React.FC<UpdateLinkModalProps> = ({
   );
 };
 
-export default UpdateLinkModal;
+export default UpdateBuddyModal;
