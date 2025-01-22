@@ -3,8 +3,11 @@
   <img width="30%" alt="logo_main" src="https://github.com/user-attachments/assets/93591328-14c9-4344-885c-8a4b1a71782c">
 </p>
 
+### [전체 문서 보러가기](https://github.com/Link-Buddy)
+---
 ## 📚 Repository
 * Backend: [Link-Buddy/back](https://github.com/Link-Buddy/back)
+  
 
 ## Frontend
 
@@ -97,3 +100,4 @@
       <img width="40%" alt="add_category" src="https://github.com/user-attachments/assets/b2dabd28-1639-40e7-b59c-7c693b556e12">
       <img width="40%" alt="link_move" src="https://github.com/user-attachments/assets/695a5b7b-f984-4544-a7f0-495ee7dd433c">
     </p>
+    
